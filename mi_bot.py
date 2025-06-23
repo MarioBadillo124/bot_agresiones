@@ -34,6 +34,8 @@ from flows.acerca import mostrar_acerca
 from flows.otras import manejar_otras_preguntas
 # 👇 NUEVO: Importa el archivo de preguntas abiertas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
+from flows.saludos import manejar_saludos
+
 
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
@@ -46,9 +48,17 @@ botones_principales = [
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     teclado = ReplyKeyboardMarkup(botones_principales, resize_keyboard=True)
     await update.message.reply_text(
-        "¡Bienvenido al Bot de Prevención de Agresiones! Elige una opción:",
-        reply_markup=teclado
+        "👋 ¡Hola! Bienvenido al *Bot de Prevención de Agresiones en Escuelas*.\n\n"
+        "🔍 Aquí puedes:\n"
+        "🚨 *Reportar una agresión*\n"
+        "📢 *Enviar una denuncia anónima*\n"
+        "📚 *Consultar recursos educativos*\n"
+        "🆘 *Pedir ayuda urgente* o más.\n\n"
+        "👉 Elige una opción del menú de abajo o escríbeme directamente en el chat si prefieres usar tus propias palabras. Estoy aquí para ayudarte. 💬",
+        reply_markup=teclado,
+        parse_mode="Markdown"
     )
+
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text
@@ -61,14 +71,20 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await mostrar_info_docentes(update, context)
     elif texto == "ℹ️ Acerca del Bot":
         await mostrar_acerca(update, context)
-    elif "reportar" in texto.lower():  # 👈 Agrega acceso directo a reporte por texto
+    elif "reportar" in texto.lower():
         await iniciar_reporte(update, context)
     else:
-        # 👇 Primero intenta interpretar la pregunta abierta
-        await manejar_preguntas_abiertas(update, context)
+        respondio_saludo = await manejar_saludos(update, context)
 
-        # 👇 Luego intenta con otras preguntas generales si no se reconoció antes
+    if respondio_saludo:
+        return
+
+    respondio_abierta = await manejar_preguntas_abiertas(update, context)
+
+    if not respondio_abierta:
         await manejar_otras_preguntas(update, context)
+
+
 
 def main():
     app = Application.builder().token(TOKEN).build()

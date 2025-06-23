@@ -64,7 +64,7 @@ async def manejar_otras_preguntas(update: Update, context: ContextTypes.DEFAULT_
     texto = update.message.text.lower()
     
     if any(palabra in texto for palabra in ["clima", "tiempo", "temperatura"]):
-        ciudad = "Monterrey"  # Puedes personalizar la ciudad
+        ciudad = "Chimalhuacán"  # Puedes personalizar la ciudad
         await update.message.reply_text(obtener_clima(ciudad), parse_mode="Markdown")
     
     elif any(palabra in texto for palabra in ["chiste", "broma", "reír"]):
