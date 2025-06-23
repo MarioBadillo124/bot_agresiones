@@ -1,3 +1,7 @@
+
+import logging
+logging.basicConfig(level=logging.INFO)
+
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -30,9 +34,6 @@ from flows.denuncia import (
 #Información
 from telegram.ext import CommandHandler, CallbackQueryHandler
 
-dispatcher.add_handler(CommandHandler("informacion", informacion))
-dispatcher.add_handler(CallbackQueryHandler(mostrar_info))
-
 
 from flows.recursos import mostrar_recursos
 from flows.emergencia import mostrar_emergencia
@@ -43,7 +44,7 @@ from flows.otras import manejar_otras_preguntas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
 from flows.saludos import manejar_saludos
 # Importa el archivo de información
-from flows.otras import informacion, mostrar_info
+from flows.otras import manejar_consultas_info
 
 
 
@@ -59,19 +60,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     teclado = ReplyKeyboardMarkup(botones_principales, resize_keyboard=True)
     await update.message.reply_text(
         "👋 ¡Hola! Bienvenido al *Bot de Prevención de Agresiones en Escuelas*.\n\n"
-        "🔍 Aquí puedes:\n"
+        "🔍 Puedes preguntarme sobre:\n"
+        "- ¿Qué es una agresión?\n"
+        "- Tipos de agresión\n"
+        "- Cómo prevenir agresiones\n"
+        "- Qué hacer si soy testigo\n\n"
+        "O usa los botones para:\n"
         "🚨 *Reportar una agresión*\n"
         "📢 *Enviar una denuncia anónima*\n"
         "📚 *Consultar recursos educativos*\n"
-        "🆘 *Pedir ayuda urgente* o más.\n\n"
-        "👉 Elige una opción del menú de abajo o escríbeme directamente en el chat si prefieres usar tus propias palabras. Estoy aquí para ayudarte. 💬",
+        "🆘 *Pedir ayuda urgente*",
         reply_markup=teclado,
         parse_mode="Markdown"
     )
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    texto = update.message.text
+    texto = update.message.text.lower()
+    respondio_saludo = False  # Inicializamos la variable
 
     if texto == "📚 Recursos Educativos":
         await mostrar_recursos(update, context)
@@ -85,16 +91,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await iniciar_reporte(update, context)
     else:
         respondio_saludo = await manejar_saludos(update, context)
-
-    if respondio_saludo:
-        return
-
-    respondio_abierta = await manejar_preguntas_abiertas(update, context)
-
-    if not respondio_abierta:
-        await manejar_otras_preguntas(update, context)
-
-
+        if not respondio_saludo:
+            respondio_info = await manejar_consultas_info(update, context)
+            if not respondio_info:
+                respondio_abierta = await manejar_preguntas_abiertas(update, context)
+                if not respondio_abierta:
+                    await manejar_otras_preguntas(update, context)
 
 def main():
     app = Application.builder().token(TOKEN).build()
@@ -125,7 +127,5 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    app.run_polling()
-
 if __name__ == "__main__":
     main()

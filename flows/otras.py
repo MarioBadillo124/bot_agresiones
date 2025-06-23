@@ -87,30 +87,53 @@ async def manejar_otras_preguntas(update: Update, context: ContextTypes.DEFAULT_
             "- \"Cuéntame un chiste\"",
             parse_mode="Markdown"
         )
-        
+        # ... (imports y funciones previas se mantienen igual)
+
+async def manejar_consultas_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    texto = update.message.text.lower()
     
-
-def informacion(update: Update, context: CallbackContext):
-    keyboard = [
-        [InlineKeyboardButton("¿Qué es una agresión física?", callback_data='info_1')],
-        [InlineKeyboardButton("Tipos de agresión", callback_data='info_2')],
-        [InlineKeyboardButton("Consecuencias", callback_data='info_3')],
-        [InlineKeyboardButton("Prevención", callback_data='info_4')],
-        [InlineKeyboardButton("¿Qué hacer si soy testigo?", callback_data='info_5')],
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text('Selecciona un tema para más información:', reply_markup=reply_markup)
-
-def mostrar_info(update: Update, context: CallbackContext):
-    query = update.callback_query
-    query.answer()
-
-    contenido = {
-        'info_1': "📌 *¿Qué es una agresión física?*\n\nEs cualquier acto que cause daño físico, como empujones, golpes o patadas.",
-        'info_2': "📌 *Tipos de agresión:*\n\n- Física\n- Verbal\n- Psicológica\n- Cibernética",
-        'info_3': "📌 *Consecuencias:*\n\nLa víctima puede sufrir ansiedad, miedo, bajo rendimiento escolar y aislamiento.",
-        'info_4': "📌 *Prevención:*\n\n- Fomentar el respeto\n- Supervisión constante\n- Intervención temprana",
-        'info_5': "📌 *¿Qué hacer si soy testigo?*\n\n- Informar a un adulto\n- No quedarse callado\n- Ayudar si es seguro hacerlo",
+    info_responses = {
+        "qué es una agresión": (
+            "📌 *¿Qué es una agresión física?*\n\n"
+            "Es cualquier acto intencional que cause daño físico a otra persona. "
+            "Incluye golpes, empujones, patadas, arañazos o cualquier otro contacto físico violento."
+        ),
+        "tipos de agresión": (
+            "📌 *Tipos de agresión:*\n\n"
+            "1. *Física:* Golpes, empujones, etc.\n"
+            "2. *Verbal:* Insultos, burlas, amenazas\n"
+            "3. *Psicológica:* Manipulación, exclusión\n"
+            "4. *Cibernética:* Acoso por redes sociales"
+        ),
+        "consecuencias": (
+            "📌 *Consecuencias de la agresión:*\n\n"
+            "🔹 Para la víctima:\n"
+            "- Daño físico\n- Ansiedad\n- Baja autoestima\n"
+            "🔹 Para el agresor:\n"
+            "- Problemas disciplinarios\n- Posibles consecuencias legales"
+        ),
+        "prevención": (
+            "📌 *Prevención de agresiones:*\n\n"
+            "✅ Fomentar el respeto mutuo\n"
+            "✅ Educación emocional\n"
+            "✅ Canales de denuncia accesibles\n"
+            "✅ Supervisión en áreas comunes"
+        ),
+        "qué hacer si soy testigo": (
+            "📌 *¿Qué hacer si soy testigo?*\n\n"
+            "1. Mantén la calma\n"
+            "2. Busca ayuda de un adulto\n"
+            "3. No grabes ni compartas imágenes\n"
+            "4. Ofrece apoyo a la víctima\n"
+            "5. Reporta el incidente"
+        )
     }
+    
+    for keyword, response in info_responses.items():
+        if keyword in texto:
+            await update.message.reply_text(response, parse_mode="Markdown")
+            return True
+    
+    return False
 
-    query.edit_message_text(text=contenido.get(query.data, "Tema no encontrado."), parse_mode='Markdown')
+# ... (las demás funciones se mantienen igual)
