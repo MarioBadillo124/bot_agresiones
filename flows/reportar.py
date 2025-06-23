@@ -15,7 +15,7 @@ async def iniciar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return PREGUNTAR_LUGAR
 
 async def manejar_lugar(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Procesa la respuesta del lugar."""
+    """Procesa la respuesta del lugar"""
     texto = update.message.text
     lugar = procesar_texto(texto, ["patio", "baños", "salón", "comedor"])
     
