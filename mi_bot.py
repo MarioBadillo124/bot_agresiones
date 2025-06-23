@@ -27,6 +27,13 @@ from flows.denuncia import (
     ESPERANDO_DESCRIPCION, 
     CONFIRMACION
 )
+#Información
+from telegram.ext import CommandHandler, CallbackQueryHandler
+
+dispatcher.add_handler(CommandHandler("informacion", informacion))
+dispatcher.add_handler(CallbackQueryHandler(mostrar_info))
+
+
 from flows.recursos import mostrar_recursos
 from flows.emergencia import mostrar_emergencia
 from flows.docentes import mostrar_info_docentes
@@ -35,6 +42,9 @@ from flows.otras import manejar_otras_preguntas
 # 👇 NUEVO: Importa el archivo de preguntas abiertas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
 from flows.saludos import manejar_saludos
+# Importa el archivo de información
+from flows.otras import informacion, mostrar_info
+
 
 
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
