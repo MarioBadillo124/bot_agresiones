@@ -3,7 +3,8 @@ from datetime import datetime
 import random
 from telegram import Update
 from telegram.ext import ContextTypes
-
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import CallbackContext
 # --- Configuración de APIs ---
 OPENWEATHER_API_KEY = "92f1b6e1392ebde583d2fa69d697d14b"  # Regístrate en https://openweathermap.org/api
 
@@ -86,3 +87,53 @@ async def manejar_otras_preguntas(update: Update, context: ContextTypes.DEFAULT_
             "- \"Cuéntame un chiste\"",
             parse_mode="Markdown"
         )
+        # ... (imports y funciones previas se mantienen igual)
+
+async def manejar_consultas_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    texto = update.message.text.lower()
+    
+    info_responses = {
+        "qué es una agresión": (
+            "📌 *¿Qué es una agresión física?*\n\n"
+            "Es cualquier acto intencional que cause daño físico a otra persona. "
+            "Incluye golpes, empujones, patadas, arañazos o cualquier otro contacto físico violento."
+        ),
+        "tipos de agresión": (
+            "📌 *Tipos de agresión:*\n\n"
+            "1. *Física:* Golpes, empujones, etc.\n"
+            "2. *Verbal:* Insultos, burlas, amenazas\n"
+            "3. *Psicológica:* Manipulación, exclusión\n"
+            "4. *Cibernética:* Acoso por redes sociales"
+        ),
+        "consecuencias": (
+            "📌 *Consecuencias de la agresión:*\n\n"
+            "🔹 Para la víctima:\n"
+            "- Daño físico\n- Ansiedad\n- Baja autoestima\n"
+            "🔹 Para el agresor:\n"
+            "- Problemas disciplinarios\n- Posibles consecuencias legales"
+        ),
+        "prevención": (
+            "📌 *Prevención de agresiones:*\n\n"
+            "✅ Fomentar el respeto mutuo\n"
+            "✅ Educación emocional\n"
+            "✅ Canales de denuncia accesibles\n"
+            "✅ Supervisión en áreas comunes"
+        ),
+        "qué hacer si soy testigo": (
+            "📌 *¿Qué hacer si soy testigo?*\n\n"
+            "1. Mantén la calma\n"
+            "2. Busca ayuda de un adulto\n"
+            "3. No grabes ni compartas imágenes\n"
+            "4. Ofrece apoyo a la víctima\n"
+            "5. Reporta el incidente"
+        )
+    }
+    
+    for keyword, response in info_responses.items():
+        if keyword in texto:
+            await update.message.reply_text(response, parse_mode="Markdown")
+            return True
+    
+    return False
+
+# ... (las demás funciones se mantienen igual)
