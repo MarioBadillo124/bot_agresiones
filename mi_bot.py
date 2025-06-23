@@ -33,6 +33,9 @@ from flows.docentes import mostrar_info_docentes
 from flows.acerca import mostrar_acerca
 from flows.otras import manejar_otras_preguntas
 
+# 👇 NUEVO: Importa el archivo de preguntas abiertas
+from flows.abiertas_reportes import manejar_preguntas_abiertas
+
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
 botones_principales = [
@@ -50,7 +53,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text
-    
+
     if texto == "📚 Recursos Educativos":
         await mostrar_recursos(update, context)
     elif texto == "🆘 SOS Emergencia":
@@ -59,13 +62,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await mostrar_info_docentes(update, context)
     elif texto == "ℹ️ Acerca del Bot":
         await mostrar_acerca(update, context)
+    elif "reportar" in texto.lower():  # 👈 Agrega acceso directo a reporte por texto
+        await iniciar_reporte(update, context)
     else:
+        # 👇 Primero intenta interpretar la pregunta abierta
+        await manejar_preguntas_abiertas(update, context)
+
+        # 👇 Luego intenta con otras preguntas generales si no se reconoció antes
         await manejar_otras_preguntas(update, context)
 
 def main():
     app = Application.builder().token(TOKEN).build()
     
-    # Handler para REPORTES
     reporte_handler = ConversationHandler(
         entry_points=[MessageHandler(filters.Regex("^🚨 Reportar Agresión$"), iniciar_reporte)],
         states={
@@ -78,7 +86,6 @@ def main():
         allow_reentry=True
     )
     
-    # Handler para DENUNCIAS
     denuncia_handler = ConversationHandler(
         entry_points=[MessageHandler(filters.Regex("^📢 Denuncia Anónima$"), iniciar_denuncia)],
         states={
@@ -88,7 +95,6 @@ def main():
         fallbacks=[CommandHandler("cancelar", cancelar_denuncia)],
     )
     
-    # Registra todos los handlers
     app.add_handler(reporte_handler)
     app.add_handler(denuncia_handler)
     app.add_handler(CommandHandler("start", start))
