@@ -15,6 +15,7 @@ from flows.reportar import (
     confirmar_reporte,
     manejar_volver_menu,
     confirmar_agradecimiento,
+
     cancelar as cancelar_reporte,
     PREGUNTAR_LUGAR,
     PREGUNTAR_HORA,
@@ -25,11 +26,14 @@ from flows.reportar import (
 from flows.denuncia import (
     iniciar_denuncia, 
     recibir_descripcion, 
-    confirmar_denuncia, 
+    confirmar_denuncia,
+    manejar_volver_menu,
     cancelar as cancelar_denuncia,
     ESPERANDO_DESCRIPCION, 
-    CONFIRMACION
+    CONFIRMACION,
+    PREGUNTAR_VOLVER_MENU
 )
+
 #Información
 from telegram.ext import CommandHandler, CallbackQueryHandler
 
@@ -70,9 +74,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text.lower()
     respondio_saludo = False  # Inicializamos la variable
+
 
     if texto == "📚 Recursos Educativos":
         await mostrar_recursos(update, context)
@@ -103,6 +109,7 @@ def main():
             PREGUNTAR_HORA: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_hora)],
             PREGUNTAR_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_descripcion)],
             CONFIRMAR_REPORTE: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_reporte)],
+
             PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
 
         },
@@ -115,6 +122,7 @@ def main():
         states={
             ESPERANDO_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, recibir_descripcion)],
             CONFIRMACION: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_denuncia)],
+            PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
         },
         fallbacks=[CommandHandler("cancelar", cancelar_denuncia)],
     )

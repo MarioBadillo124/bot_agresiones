@@ -1,8 +1,8 @@
-from telegram import Update
+from telegram import Update,ReplyKeyboardMarkup,ReplyKeyboardRemove
 from telegram.ext import ContextTypes, ConversationHandler
 
 # Estados del flujo
-ESPERANDO_DESCRIPCION, CONFIRMACION = range(2)
+ESPERANDO_DESCRIPCION, CONFIRMACION, PREGUNTAR_VOLVER_MENU = range(3)
 
 async def iniciar_denuncia(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Inicia el flujo de denuncia anónima"""
@@ -31,11 +31,35 @@ async def confirmar_denuncia(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Aquí podrías guardar en una base de datos
         await update.message.reply_text(
             "✅ *Denuncia anónima enviada.*\n"
-            "Nadie verá tu identidad. Gracias por tu ayuda.",
-            parse_mode="Markdown"
+            "Nadie verá tu identidad. Gracias por tu ayuda. *\n"
+            "¿Deseas volver al menú principal?",
+            reply_markup=ReplyKeyboardMarkup(
+            [["Sí","sí", "si", "yes", "No", "no"]],
+            one_time_keyboard=True,
+            resize_keyboard=True
         )
+        )
+    return PREGUNTAR_VOLVER_MENU
+
+async def manejar_volver_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Maneja la decisión de volver al menú principal."""
+    from mi_bot import botones_principales  # Importación local para evitar circularidad
+    
+    texto = update.message.text.lower()
+    
+    if any(p in texto for p in ["sí", "si", "volver"]):
+        # Primero enviamos el mensaje de confirmación
+        await update.message.reply_text(
+            "Por favor esribe /start para reiniciar el bot.",
+            reply_markup=ReplyKeyboardRemove()  # Limpiamos teclado actual
+        )
+        
     else:
-        await update.message.reply_text("❌ Denuncia cancelada.")
+        await update.message.reply_text(
+            "De acuerdo. Puedes continuar con lo que necesites.",
+            reply_markup=ReplyKeyboardRemove()
+        )
+    
     return ConversationHandler.END
 
 async def cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE):
