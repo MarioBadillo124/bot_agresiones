@@ -2,7 +2,6 @@ from telegram import Update
 from telegram.ext import ContextTypes, ConversationHandler, MessageHandler, filters
 from utils import procesar_texto
 from telegram import ReplyKeyboardMarkup
-from ..mi_bot import botones_principales  # Importa los botones del menú
 
 # Definimos los estados como constantes
 PREGUNTAR_LUGAR, PREGUNTAR_HORA, PREGUNTAR_DESCRIPCION, CONFIRMAR_REPORTE = range(4) 
@@ -85,7 +84,7 @@ async def manejar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_T
     await update.message.reply_text(
         "¡Gracias por tu reporte! ¿Deseas volver al menú principal?",
         reply_markup=ReplyKeyboardMarkup(
-            [["Sí", "No"]],
+            [["Sí","sí", "si", "yes", "No", "no"]],
             one_time_keyboard=True,
             resize_keyboard=True
         )
@@ -94,7 +93,7 @@ async def manejar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_T
 
 async def confirmar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     texto = update.message.text.lower()
-    if texto == "sí":
+    if texto == ["sí","Sí", "si", "yes"]:
         from ..mi_bot import botones_principales  # importa desde el archivo raíz
         await update.message.reply_text(
             "Regresando al menú principal...",
