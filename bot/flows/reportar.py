@@ -1,9 +1,11 @@
-from telegram import Update
+
+from telegram import Update,ReplyKeyboardMarkup
 from telegram.ext import ContextTypes, ConversationHandler, MessageHandler, filters
-from bot.utils import procesar_texto
+from utils import procesar_texto
+#from telegram import ReplyKeyboardMarkup
 
 # Definimos los estados como constantes
-PREGUNTAR_LUGAR, PREGUNTAR_HORA, PREGUNTAR_DESCRIPCION, CONFIRMAR_REPORTE = range(4)
+PREGUNTAR_LUGAR, PREGUNTAR_HORA, PREGUNTAR_DESCRIPCION, CONFIRMAR_REPORTE, PREGUNTAR_VOLVER_MENU = range(5)
 
 async def iniciar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Inicia el flujo de reporte."""
@@ -15,7 +17,9 @@ async def iniciar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return PREGUNTAR_LUGAR
 
 async def manejar_lugar(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Procesa la respuesta del lugar"""
+
+    """Procesa la respuesta del lugar."""
+
     texto = update.message.text
     lugar = procesar_texto(texto, ["patio", "baños", "salón", "comedor"])
     
@@ -60,15 +64,74 @@ async def confirmar_reporte(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.text.lower() in ["sí", "si", "yes"]:
         # Aquí puedes guardar en base de datos
         await update.message.reply_text(
-            "✅ *Reporte enviado correctamente.*\nEl equipo escolar tomará acción.",
-            parse_mode="Markdown"
+
+            "✅ *Reporte enviado correctamente.*\nEl equipo escolar tomará acción.")
+        # Preguntar si desea volver al menú
+        await update.message.reply_text(
+            "¿Deseas volver al menú principal?",
+            reply_markup=ReplyKeyboardMarkup(
+                [["Sí, volver al menú", "No, continuar"]],
+                one_time_keyboard=True,
+                resize_keyboard=True
+            )
         )
+        return PREGUNTAR_VOLVER_MENU
     else:
         await update.message.reply_text("✏️ Vamos a empezar de nuevo.")
-        return await iniciar_reporte(update, context)  # Reinicia el flujo
-    return ConversationHandler.END  # Termina el flujo
+        return await iniciar_reporte(update, context)
 
-# Handler para cancelar en cualquier momento
+async def manejar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    await update.message.reply_text(
+        "¡Gracias por tu reporte! ¿Deseas volver al menú principal?",
+        reply_markup=ReplyKeyboardMarkup(
+            [["Sí","sí", "si", "yes", "No", "no"]],
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+    )
+    return PREGUNTAR_VOLVER_MENU
+
+async def manejar_volver_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Maneja la decisión de volver al menú principal."""
+    texto = update.message.text.lower()
+    
+    if any(p in texto for p in ["sí", "si", "volver"]):
+        # Importamos el teclado principal solo cuando se necesita
+        from mi_bot import botones_principales
+        teclado_principal = ReplyKeyboardMarkup(
+            botones_principales,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Volviendo al menú principal...",
+            reply_markup=ReplyKeyboardMarkup([[]], resize_keyboard=True)
+        )
+        # Luego enviamos el teclado principal
+        await update.message.reply_text(
+            "Menú principal:",
+            reply_markup=botones_principales
+        )
+    else:
+        await update.message.reply_text(
+            "De acuerdo. Puedes continuar con lo que necesites.",
+            reply_markup=ReplyKeyboardMarkup([[]], resize_keyboard=True)  # Elimina teclado
+        )
+    
+    return ConversationHandler.END
+
 async def cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("❌ Reporte cancelado.")
     return ConversationHandler.END
+
+async def confirmar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    texto = update.message.text.lower()
+    if texto == ["sí","Sí", "si", "yes"]:
+        from ..mi_bot import botones_principales  # importa desde el archivo raíz
+        await update.message.reply_text(
+            "Regresando al menú principal...",
+            reply_markup=ReplyKeyboardMarkup(botones_principales, resize_keyboard=True)
+        )
+    else:
+        await update.message.reply_text("Entendido. Puedes escribirme cuando lo necesites.")
+    return ConversationHandler.END
+

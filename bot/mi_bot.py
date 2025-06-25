@@ -13,11 +13,15 @@ from flows.reportar import (
     manejar_hora,
     manejar_descripcion,
     confirmar_reporte,
+    manejar_volver_menu,
+    confirmar_agradecimiento,
+
     cancelar as cancelar_reporte,
     PREGUNTAR_LUGAR,
     PREGUNTAR_HORA,
     PREGUNTAR_DESCRIPCION,
-    CONFIRMAR_REPORTE
+    CONFIRMAR_REPORTE,
+    PREGUNTAR_VOLVER_MENU
 )
 from flows.denuncia import (
     iniciar_denuncia, 
@@ -27,17 +31,20 @@ from flows.denuncia import (
     ESPERANDO_DESCRIPCION, 
     CONFIRMACION
 )
+
+#Información
 from telegram.ext import CommandHandler, CallbackQueryHandler
+
 from flows.recursos import mostrar_recursos
 from flows.emergencia import mostrar_emergencia
 from flows.docentes import mostrar_info_docentes
 from flows.acerca import mostrar_acerca
 from flows.otras import manejar_otras_preguntas
+# 👇 NUEVO: Importa el archivo de preguntas abiertas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
 from flows.saludos import manejar_saludos
+# Importa el archivo de información
 from flows.otras import manejar_consultas_info
-
-
 
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
@@ -68,7 +75,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text.lower()
-    respondio_saludo = False  # Inicializamos la variable, dependiendo la opcion que se elija
+    respondio_saludo = False  # Inicializamos la variable
+
 
     if texto == "📚 Recursos Educativos":
         await mostrar_recursos(update, context)
@@ -99,6 +107,9 @@ def main():
             PREGUNTAR_HORA: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_hora)],
             PREGUNTAR_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_descripcion)],
             CONFIRMAR_REPORTE: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_reporte)],
+
+            PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
+
         },
         fallbacks=[CommandHandler("cancelar", cancelar_reporte)],
         allow_reentry=True

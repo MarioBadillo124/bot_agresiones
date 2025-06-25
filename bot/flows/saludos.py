@@ -23,6 +23,10 @@ RESPUESTAS_ESTADO = [
     "💪 Estoy funcionando bien. ¿Te gustaría reportar algo o necesitas información?"
 ]
 
+# Nuevas listas para agradecimientos y despedidas
+AGRADECIMIENTOS = ["gracias", "muchas gracias", "te lo agradezco", "agradecido", "agradecida"]
+DESPEDIDAS = ["adiós", "hasta luego", "nos vemos", "chao", "bye", "hasta pronto"]
+
 async def manejar_saludos(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     texto = update.message.text.lower()
 
@@ -33,5 +37,6 @@ async def manejar_saludos(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     if any(p in texto for p in PREGUNTAS_ESTADO):
         await update.message.reply_text(random.choice(RESPUESTAS_ESTADO))
         return True
+    
 
     return False
