@@ -13,14 +13,14 @@ from flows.reportar import (
     manejar_hora,
     manejar_descripcion,
     confirmar_reporte,
-    manejar_agradecimiento,
+    manejar_volver_menu,
     confirmar_agradecimiento,
     cancelar as cancelar_reporte,
     PREGUNTAR_LUGAR,
     PREGUNTAR_HORA,
     PREGUNTAR_DESCRIPCION,
     CONFIRMAR_REPORTE,
-    AGRADECIMIENTO
+    PREGUNTAR_VOLVER_MENU
 )
 from flows.denuncia import (
     iniciar_denuncia, 
@@ -103,7 +103,7 @@ def main():
             PREGUNTAR_HORA: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_hora)],
             PREGUNTAR_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_descripcion)],
             CONFIRMAR_REPORTE: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_reporte)],
-            AGRADECIMIENTO: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_agradecimiento)],
+            PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
 
         },
         fallbacks=[CommandHandler("cancelar", cancelar_reporte)],
