@@ -27,19 +27,14 @@ from flows.denuncia import (
     ESPERANDO_DESCRIPCION, 
     CONFIRMACION
 )
-#Información
 from telegram.ext import CommandHandler, CallbackQueryHandler
-
-
 from flows.recursos import mostrar_recursos
 from flows.emergencia import mostrar_emergencia
 from flows.docentes import mostrar_info_docentes
 from flows.acerca import mostrar_acerca
 from flows.otras import manejar_otras_preguntas
-# 👇 NUEVO: Importa el archivo de preguntas abiertas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
 from flows.saludos import manejar_saludos
-# Importa el archivo de información
 from flows.otras import manejar_consultas_info
 
 
@@ -73,7 +68,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text.lower()
-    respondio_saludo = False  # Inicializamos la variable
+    respondio_saludo = False  # Inicializamos la variable, dependiendo la opcion que se elija
 
     if texto == "📚 Recursos Educativos":
         await mostrar_recursos(update, context)
