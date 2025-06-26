@@ -1,0 +1,5 @@
+train: datasets/extracted_frames/  # YOLO buscará subcarpetas
+val: datasets/extracted_frames/    # O crea carpetas train/ y val/ si separas
+
+nc: 2
+names: ['no_fight', 'fight']
