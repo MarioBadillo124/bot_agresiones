@@ -35,13 +35,7 @@ html {
     text-align: center;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #ffffff;
-    color: #000000;
-    text-align: center;
-    padding-top: 150px;
-}
+
 
 h1 {
     margin: 0; /* Elimina el margen por defecto */
