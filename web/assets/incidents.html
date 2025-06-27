@@ -4,19 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Incidentes - Sistema de Monitoreo</title>
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/estilos_barra_menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </head>
 <body>
+
+    <header>
+        <div class="superior">
+            <div class="logo">
+                <img src="images/iconos/logo.jpg" alt="logo">
+            </div>
+            <div class="search">
+                <br><h1>Historial de incidentes</h1><br>
+            </div>
+        </div>
+
+        <div class="container__menu">
+            <nav>
+                <ul>
+                    <li><a href="menu.html"></a></li>
+                    <li><a href="live-view.html" >Vista en tiempo real</a></li>
+                    <li><a href="" id="selected">Historico de incidentes</a></li>
+                    <li><a href="statistics.html" >Estadisticas</a></li>
+                    <li><a href="admin.html" >Administracion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header><br>
+
     <div class="dashboard">
         <!-- Sidebar (igual que en dashboard.html) -->
         <!-- ... -->
         
         <!-- Main Content -->
         <div class="main-content">
-            <header class="main-header">
-                <h1>Histórico de Incidentes</h1>
+            
+
                 <div class="header-actions">
                     <div class="date-filter">
                         <input type="date" id="startDate">
@@ -28,7 +52,6 @@
                         <i class="fas fa-file-export"></i> Exportar
                     </button>
                 </div>
-            </header>
             
             <div class="content">
                 <div class="incidents-table-container">

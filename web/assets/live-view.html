@@ -4,33 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vista en Tiempo Real - Sistema de Monitoreo</title>
-    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/estilos_barra_menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+
+    <header>
+        <div class="superior">
+            <div class="logo">
+                <img src="images/iconos/logo.jpg" alt="logo">
+            </div>
+            <div class="search">
+                <br><h1>Vista en tiempo reals</h1><br>
+            </div>
+        </div>
+
+        <div class="container__menu">
+            <nav>
+                <ul>
+                    <li><a href="menu.html"></a></li>
+                    <li><a href="" id="selected">Vista en tiempo real</a></li>
+                    <li><a href="incidents.html" >Historico de incidentes</a></li>
+                    <li><a href="statistics.html" >Estadisticas</a></li>
+                    <li><a href="admin.html" >Administracion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header><br>
+
     <div class="dashboard">
         <!-- Sidebar (igual que en dashboard.html) -->
         <!-- ... -->
         
         <!-- Main Content -->
         <div class="main-content">
-            <header class="main-header">
-                <h1>Vista en Tiempo Real</h1>
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="fullscreenBtn">
-                        <i class="fas fa-expand"></i> Pantalla Completa
-                    </button>
-                    <div class="camera-selector">
-                        <select id="cameraSelect">
-                            <option value="all">Todas las Cámaras</option>
-                            <option value="1">Patio Principal</option>
-                            <option value="2">Entrada Principal</option>
-                            <option value="3">Cancha de Fútbol</option>
-                            <option value="4">Comedor</option>
-                        </select>
-                    </div>
-                </div>
-            </header>
+            
             
             <div class="content">
                 <div class="camera-grid">
