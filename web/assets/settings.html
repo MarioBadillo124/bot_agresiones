@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Sistema de Monitoreo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar (igual que en dashboard.html) -->
+        <!-- ... -->
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="main-header">
+                <h1>Configuración del Sistema</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="saveSettingsBtn">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </header>
+            
+            <div class="content">
+                <div class="settings-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="general">General</button>
+                        <button class="tab-btn" data-tab="cameras">Cámaras</button>
+                        <button class="tab-btn" data-tab="detection">Detección</button>
+                        <button class="tab-btn" data-tab="notifications">Notificaciones</button>
+                        <button class="tab-btn" data-tab="backup">Respaldo</button>
+                    </div>
+                    
+                    <div class="tabs-content">
+                        <!-- Pestaña General -->
+                        <div class="tab-pane active" id="generalTab">
+                            <form class="settings-form">
+                                <div class="form-group">
+                                    <label for="schoolName">Nombre de la Escuela:</label>
+                                    <input type="text" id="schoolName" value="Escuela Primaria Ejemplo">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="timeZone">Zona Horaria:</label>
+                                    <select id="timeZone">
+                                        <option value="-6">(GMT-06:00) Centro de México</option>
+                                        <!-- Más zonas horarias -->
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="language">Idioma:</label>
+                                    <select id="language">
+                                        <option value="es">Español</option>
+                                        <option value="en">Inglés</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="theme">Tema Visual:</label>
+                                    <select id="theme">
+                                        <option value="light">Claro</option>
+                                        <option value="dark">Oscuro</option>
+                                        <option value="blue">Azul</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="autoLogout">Cierre Automático de Sesión:</label>
+                                    <select id="autoLogout">
+                                        <option value="15">15 minutos</option>
+                                        <option value="30" selected>30 minutos</option>
+                                        <option value="60">1 hora</option>
+                                        <option value="0">Nunca</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Pestaña de Cámaras -->
+                        <div class="tab-pane" id="camerasTab">
+                            <div class="settings-section">
+                                <h3>Configuración de Cámaras</h3>
+                                
+                                <div class="camera-settings-list">
+                                    <div class="camera-setting">
+                                        <div class="camera-info">
+                                            <h4>Patio Principal</h4>
+                                            <p>IP: 192.168.1.100</p>
+                                        </div>
+                                        <div class="camera-controls">
+                                            <label>
+                                                <input type="checkbox" checked> Activa
+                                            </label>
+                                            <button class="btn btn-secondary">Configurar</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Más cámaras -->
+                                </div>
+                                
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Agregar Cámara
+                                </button>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>Configuración de Almacenamiento</h3>
+                                
+                                <div class="form-group">
+                                    <label for="storageDays">Días de Retención de Videos:</label>
+                                    <input type="number" id="storageDays" value="30" min="1" max="365">
+                                    <span>días</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="storageLocation">Ubicación de Almacenamiento:</label>
+                                    <select id="storageLocation">
+                                        <option value="local">Local</option>
+                                        <option value="cloud">Nube</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group" id="cloudConfig">
+                                    <label for="cloudService">Servicio en la Nube:</label>
+                                    <select id="cloudService">
+                                        <option value="google">Google Drive</option>
+                                        <option value="dropbox">Dropbox</option>
+                                        <option value="aws">AWS S3</option>
+                                    </select>
+                                    
+                                    <div class="cloud-credentials">
+                                        <label for="cloudUser">Usuario:</label>
+                                        <input type="text" id="cloudUser">
+                                        
+                                        <label for="cloudKey">Clave:</label>
+                                        <input type="password" id="cloudKey">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pestaña de Detección -->
+                        <div class="tab-pane" id="detectionTab">
+                            <div class="settings-section">
+                                <h3>Configuración del Modelo de Detección</h3>
+                                
+                                <div class="form-group">
+                                    <label for="detectionSensitivity">Sensibilidad de Detección:</label>
+                                    <input type="range" id="detectionSensitivity" min="1" max="100" value="75">
+                                    <span id="sensitivityValue">75%</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="minConfidence">Confianza Mínima:</label>
+                                    <input type="range" id="minConfidence" min="50" max="100" value="85">
+                                    <span id="confidenceValue">85%</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="detectionTypes">Tipos de Eventos a Detectar:</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="checkbox" checked> Agresión Física</label>
+                                        <label><input type="checkbox" checked> Bullying Verbal</label>
+                                        <label><input type="checkbox"> Vandalismo</label>
+                                        <label><input type="checkbox" checked> Actividad Sospechosa</label>
+                                        <label><input type="checkbox"> Armas</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="analysisAreas">Áreas de Análisis:</label>
+                                    <div class="map-container">
+                                        <img src="images/school-map.png" alt="Mapa de la Escuela" class="analysis-map">
+                                        <div class="analysis-zone" style="top: 20%; left: 30%; width: 100px; height: 80px;"></div>
+                                        <div class="analysis-zone" style="top: 40%; left: 60%; width: 120px; height: 90px;"></div>
+                                    </div>
+                                    <button class="btn btn-secondary">Definir Zonas</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>Prueba de Detección</h3>
+                                <p>Prueba la configuración actual con un video de ejemplo:</p>
+                                
+                                <div class="test-detection">
+                                    <video controls>
+                                        <source src="videos/test.mp4" type="video/mp4">
+                                    </video>
+                                    <button class="btn btn-primary">Probar Detección</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pestaña de Notificaciones -->
+                        <div class="tab-pane" id="notificationsTab">
+                            <div class="settings-section">
+                                <h3>Configuración de Alertas</h3>
+                                
+                                <div class="form-group">
+                                    <label for="alertMethod">Método de Notificación:</label>
+                                    <select id="alertMethod">
+                                        <option value="popup">Popup en Sistema</option>
+                                        <option value="email">Correo Electrónico</option>
+                                        <option value="sms">SMS</option>
+                                        <option value="all">Todos los Métodos</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="alertRecipients">Destinatarios de Alertas:</label>
+                                    <select id="alertRecipients" multiple>
+                                        <option value="admin@escuela.com" selected>Administrador</option>
+                                        <option value="director@escuela.com" selected>Director</option>
+                                        <option value="prefecto@escuela.com">Prefecto</option>
+                                        <option value="seguridad@escuela.com">Seguridad</option>
+                                    </select>
+                                    <small>Mantén presionado Ctrl para seleccionar múltiples</small>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="alertSchedule">Horario de Notificaciones:</label>
+                                    <div class="schedule-grid">
+                                        <label><input type="checkbox" checked> Lunes a Viernes</label>
+                                        <label><input type="checkbox"> Sábado</label>
+                                        <label><input type="checkbox"> Domingo</label>
+                                        
+                                        <div class="time-range">
+                                            <span>De</span>
+                                            <input type="time" value="07:00">
+                                            <span>a</span>
+                                            <input type="time" value="19:00">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="alertSound">Sonido de Alerta:</label>
+                                    <select id="alertSound">
+                                        <option value="default">Predeterminado</option>
+                                        <option value="alarm1">Alarma 1</option>
+                                        <option value="alarm2">Alarma 2</option>
+                                        <option value="beep">Beep</option>
+                                    </select>
+                                    <button class="btn btn-secondary">Probar Sonido</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>Configuración de Correo Electrónico</h3>
+                                
+                                <div class="form-group">
+                                    <label for="smtpServer">Servidor SMTP:</label>
+                                    <input type="text" id="smtpServer" value="smtp.escuela.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtpPort">Puerto:</label>
+                                    <input type="number" id="smtpPort" value="587">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtpUser">Usuario SMTP:</label>
+                                    <input type="text" id="smtpUser" value="alertas@escuela.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="smtpPass">Contraseña SMTP:</label>
+                                    <input type="password" id="smtpPass">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="emailFrom">Correo Remitente:</label>
+                                    <input type="email" id="emailFrom" value="alertas@escuela.com">
+                                </div>
+                                
+                                <button class="btn btn-secondary">Probar Configuración</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Pestaña de Respaldo -->
+                        <div class="tab-pane" id="backupTab">
+                            <div class="settings-section">
+                                <h3>Respaldo de Datos</h3>
+                                
+                                <div class="backup-options">
+                                    <div class="backup-card">
+                                        <h4>Crear Respaldo</h4>
+                                        <p>Genera un archivo de respaldo con toda la configuración y datos del sistema.</p>
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-download"></i> Crear Respaldo Ahora
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="backup-card">
+                                        <h4>Restaurar Respaldo</h4>
+                                        <p>Carga un archivo de respaldo para restaurar la configuración y datos.</p>
+                                        <input type="file" id="backupFile" accept=".backup,.zip">
+                                        <button class="btn btn-secondary">
+                                            <i class="fas fa-upload"></i> Restaurar
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="autoBackup">Respaldo Automático:</label>
+                                    <select id="autoBackup">
+                                        <option value="disabled">Desactivado</option>
+                                        <option value="daily">Diario</option>
+                                        <option value="weekly" selected>Semanal</option>
+                                        <option value="monthly">Mensual</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="backupLocation">Ubicación de Respaldo:</label>
+                                    <input type="text" id="backupLocation" value="/backups">
+                                    <button class="btn btn-secondary">Seleccionar Carpeta</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3>Historial de Respaldos</h3>
+                                <table class="backup-history">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Tamaño</th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2023-06-10 02:00</td>
+                                            <td>45 MB</td>
+                                            <td>Automático</td>
+                                            <td><span class="status-success">Completado</span></td>
+                                            <td>
+                                                <button class="btn-action"><i class="fas fa-download"></i></button>
+                                            </td>
+                                        </tr>
+                                        <!-- Más respaldos -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejar pestañas
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remover activo de todos los botones
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Agregar activo al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Ocultar todos los paneles
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.remove('active');
+                    });
+                    
+                    // Mostrar el panel correspondiente
+                    const tabId = this.getAttribute('data-tab') + 'Tab';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Actualizar valores de los sliders
+            const sensitivitySlider = document.getElementById('detectionSensitivity');
+            const sensitivityValue = document.getElementById('sensitivityValue');
+            sensitivitySlider.addEventListener('input', function() {
+                sensitivityValue.textContent = this.value + '%';
+            });
+            
+            const confidenceSlider = document.getElementById('minConfidence');
+            const confidenceValue = document.getElementById('confidenceValue');
+            confidenceSlider.addEventListener('input', function() {
+                confidenceValue.textContent = this.value + '%';
+            });
+            
+            // Mostrar/ocultar configuración de nube
+            const storageLocation = document.getElementById('storageLocation');
+            const cloudConfig = document.getElementById('cloudConfig');
+            storageLocation.addEventListener('change', function() {
+                cloudConfig.style.display = this.value === 'cloud' ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

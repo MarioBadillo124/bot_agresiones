@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas - Sistema de Monitoreo</title>
+    <link rel="stylesheet" href="css/estilos_barra_menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar (igual que en dashboard.html) -->
+        <!-- ... -->
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <div class="superior">
+                    <div class="logo">
+                        <img src="images/iconos/logo.jpg" alt="logo">
+                    </div>
+                    <div class="search">
+                        <br><h1>Historial de incidentes</h1><br>
+                    </div>
+                </div>
+
+                <div class="container__menu">
+                    <nav>
+                        <ul>
+                            <li><a href="menu.html"></a></li>
+                            <li><a href="live-view.html" >Vista en tiempo real</a></li>
+                            <li><a href="incidents.html" >Historico de incidentes</a></li>
+                            <li><a href="" id="selected">Estadisticas</a></li>
+                            <li><a href="admin.html" >Administracion</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header><br>
+            
+                <div class="header-actions">
+                    <div class="period-selector">
+                        <select id="periodSelect">
+                            <option value="day">Hoy</option>
+                            <option value="week">Esta Semana</option>
+                            <option value="month" selected>Este Mes</option>
+                            <option value="year">Este Año</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="generateReportBtn">
+                        <i class="fas fa-file-pdf"></i> Generar Reporte
+                    </button>
+                </div>
+
+
+            <div class="content">
+                <div class="stats-grid">
+                    <div class="stat-card big">
+                        <h2>Resumen General</h2>
+                        <div class="stat-row">
+                            <div class="stat-item">
+                                <h3>Total Incidentes</h3>
+                                <p class="stat-number">24</p>
+                                <p class="stat-change up"><i class="fas fa-arrow-up"></i> 12% vs mes anterior</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>Resueltos</h3>
+                                <p class="stat-number">18</p>
+                                <p class="stat-change up"><i class="fas fa-arrow-up"></i> 8% vs mes anterior</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>Pendientes</h3>
+                                <p class="stat-number">6</p>
+                                <p class="stat-change down"><i class="fas fa-arrow-down"></i> 4% vs mes anterior</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h2>Incidentes por Tipo</h2>
+                        <canvas id="typeChart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h2>Incidentes por Ubicación</h2>
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h2>Incidentes por Hora del Día</h2>
+                        <canvas id="hourChart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card big">
+                        <h2>Tendencia Mensual</h2>
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h2>Severidad de Incidentes</h2>
+                        <canvas id="severityChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="report-section">
+                    <h2>Generar Reporte Personalizado</h2>
+                    <form id="reportForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportType">Tipo de Reporte:</label>
+                                <select id="reportType">
+                                    <option value="daily">Diario</option>
+                                    <option value="weekly">Semanal</option>
+                                    <option value="monthly">Mensual</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="reportFormat">Formato:</label>
+                                <select id="reportFormat">
+                                    <option value="pdf">PDF</option>
+                                    <option value="excel">Excel</option>
+                                    <option value="csv">CSV</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" id="customDateRange">
+                            <div class="form-group">
+                                <label for="startDate">Fecha Inicio:</label>
+                                <input type="date" id="startDate">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="endDate">Fecha Fin:</label>
+                                <input type="date" id="endDate">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" checked> Incluir gráficos
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Incluir detalles por incidente
+                            </label>
+                            <label>
+                                <input type="checkbox"> Incluir análisis comparativo
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-download"></i> Descargar Reporte
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar/ocultar rango de fechas personalizado
+            const periodSelect = document.getElementById('periodSelect');
+            const customDateRange = document.getElementById('customDateRange');
+            
+            periodSelect.addEventListener('change', function() {
+                customDateRange.style.display = this.value === 'custom' ? 'flex' : 'none';
+            });
+            
+            // Inicializar gráficos
+            initCharts();
+        });
+        
+        function initCharts() {
+            // Gráfico de tipos de incidentes
+            const typeCtx = document.getElementById('typeChart').getContext('2d');
+            const typeChart = new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Agresión Física', 'Actividad Sospechosa', 'Bullying Verbal', 'Vandalismo'],
+                    datasets: [{
+                        data: [12, 6, 4, 2],
+                        backgroundColor: [
+                            '#e53935',
+                            '#ffb74d',
+                            '#64b5f6',
+                            '#81c784'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Más gráficos...
+        }
+    </script>
+</body>
+</html>
