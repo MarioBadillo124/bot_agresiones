@@ -48,6 +48,12 @@ from flows.saludos import manejar_saludos
 # Importa el archivo de información
 from flows.otras import manejar_consultas_info
 
+from flows.recursos import mostrar_recursos
+from flows.emergencia import mostrar_emergencia
+from flows.docentes import mostrar_info_docentes
+from flows.acerca import mostrar_acerca
+
+
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
 botones_principales = [
@@ -80,13 +86,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     respondio_saludo = False  # Inicializamos la variable
 
 
-    if texto == "📚 Recursos Educativos":
+    
+    if any(palabra in texto for palabra in ["recursos educativos","recursos", "educativos", "educacion", "material", "aprendizaje"]):
         await mostrar_recursos(update, context)
-    elif texto == "🆘 SOS Emergencia":
+    elif any(p in texto for p in ["SOS Emergencia","sos", "emergencia", "ayuda", "urgente"]):
         await mostrar_emergencia(update, context)
-    elif texto == "🏫 Info para Docentes":
+    elif any(p in texto for p in ["Info para Docentes","info docente", "docente", "docentes", "información docente", "informacion docente", "profesores", "maestros"]):
         await mostrar_info_docentes(update, context)
-    elif texto == "ℹ️ Acerca del Bot":
+    elif any(p in texto for p in ["acerca del bot", "acerca", "quién eres", "quien eres", "información del bot", "informacion del bot","bot","sobre ti"]):
         await mostrar_acerca(update, context)
     elif "reportar" in texto.lower():
         await iniciar_reporte(update, context)
