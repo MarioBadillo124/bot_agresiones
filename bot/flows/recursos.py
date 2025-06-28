@@ -10,7 +10,10 @@ async def mostrar_recursos(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.message.reply_text(
         "📚 *Recursos Disponibles:*\n"
+        "- Guías para identificar agresiones\n"
+        "- Actividades para fomentar el respeto\n"
+        "- Información para padres y docentes\n\n"
         "Elige un material para verlo:",
-        reply_markup=teclado,
+        
         parse_mode="Markdown"
     )

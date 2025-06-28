@@ -1,5 +1,3 @@
-# flows/saludos.py
-
 import random
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -25,7 +23,19 @@ RESPUESTAS_ESTADO = [
 
 # Nuevas listas para agradecimientos y despedidas
 AGRADECIMIENTOS = ["gracias", "muchas gracias", "te lo agradezco", "agradecido", "agradecida"]
+RESPUESTAS_AGRADECIMIENTO = [
+    "¡De nada! Estoy aquí para ayudarte. 😊",
+    "No hay de qué, ¡espero que la información te sea útil!",
+    "¡Gracias a ti por usar el bot! Si necesitas algo más, aquí estoy.",
+    "Siempre a tu disposición. Si tienes más preguntas, no dudes en preguntar."
+]
 DESPEDIDAS = ["adiós", "hasta luego", "nos vemos", "chao", "bye", "hasta pronto"]
+RESPUESTAS_DESPEDIDA = [
+    "👋 ¡Hasta luego! Recuerda que estoy aquí si necesitas ayuda.",
+    "Cuídate mucho. Si ves algo preocupante, no dudes en reportarlo.",
+    "¡Adiós! Espero que tengas un buen día. 😊",
+    "Hasta pronto. Aquí estaré si necesitas más información."
+]
 
 async def manejar_saludos(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     texto = update.message.text.lower()
@@ -37,6 +47,10 @@ async def manejar_saludos(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     if any(p in texto for p in PREGUNTAS_ESTADO):
         await update.message.reply_text(random.choice(RESPUESTAS_ESTADO))
         return True
-    
-
+    if any(a in texto for a in AGRADECIMIENTOS):
+        await update.message.reply_text(random.choice(RESPUESTAS_AGRADECIMIENTO))
+        return True
+    if any(d in texto for d in DESPEDIDAS):
+        await update.message.reply_text(random.choice(RESPUESTAS_DESPEDIDA))
+        return True
     return False

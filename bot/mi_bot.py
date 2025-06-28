@@ -15,6 +15,7 @@ from flows.reportar import (
     confirmar_reporte,
     manejar_volver_menu,
     confirmar_agradecimiento,
+
     cancelar as cancelar_reporte,
     PREGUNTAR_LUGAR,
     PREGUNTAR_HORA,
@@ -25,11 +26,16 @@ from flows.reportar import (
 from flows.denuncia import (
     iniciar_denuncia, 
     recibir_descripcion, 
-    confirmar_denuncia, 
+    confirmar_denuncia,
+    manejar_volver_menu,
     cancelar as cancelar_denuncia,
     ESPERANDO_DESCRIPCION, 
-    CONFIRMACION
+    CONFIRMACION,
+    PREGUNTAR_VOLVER_MENU
 )
+
+
+#Información
 
 from telegram.ext import CommandHandler, CallbackQueryHandler
 
@@ -43,6 +49,12 @@ from flows.saludos import manejar_saludos, SALUDOS
 from flows.registro_mensajes import registrar_mensaje
 from flows.keywords_agresion import PALABRAS_CLAVE_AGRESION
 from flows.informacion import manejar_consultas_info
+
+from flows.recursos import mostrar_recursos
+from flows.emergencia import mostrar_emergencia
+from flows.docentes import mostrar_info_docentes
+from flows.acerca import mostrar_acerca
+
 
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
@@ -70,17 +82,20 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     registrar_mensaje(update)
     texto = update.message.text.lower()
 
-    if texto == "📚 recursos educativos":
+  
+    if any(palabra in texto for palabra in ["recursos educativos","recursos", "educativos", "educacion", "material", "aprendizaje"]):
         await mostrar_recursos(update, context)
-    elif texto == "🆘 sos emergencia":
+    elif any(p in texto for p in ["SOS Emergencia","sos", "emergencia", "ayuda", "urgente"]):
         await mostrar_emergencia(update, context)
-    elif texto == "🏫 info para docentes":
+    elif any(p in texto for p in ["Info para Docentes","info docente", "docente", "docentes", "información docente", "informacion docente", "profesores", "maestros"]):
         await mostrar_info_docentes(update, context)
-    elif texto == "ℹ️ acerca del bot":
+    elif any(p in texto for p in ["acerca del bot", "acerca", "quién eres", "quien eres", "información del bot", "informacion del bot","bot","sobre ti"]):
+
         await mostrar_acerca(update, context)
     elif "reportar" in texto:
         await iniciar_reporte(update, context)
@@ -120,6 +135,7 @@ def main():
             PREGUNTAR_HORA: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_hora)],
             PREGUNTAR_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_descripcion)],
             CONFIRMAR_REPORTE: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_reporte)],
+
             PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
         },
         fallbacks=[CommandHandler("cancelar", cancelar_reporte)],
@@ -131,6 +147,7 @@ def main():
         states={
             ESPERANDO_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, recibir_descripcion)],
             CONFIRMACION: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_denuncia)],
+            PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
         },
         fallbacks=[CommandHandler("cancelar", cancelar_denuncia)],
     )

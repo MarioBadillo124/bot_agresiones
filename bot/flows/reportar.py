@@ -1,5 +1,6 @@
 
-from telegram import Update,ReplyKeyboardMarkup
+from telegram import Update,ReplyKeyboardMarkup,ReplyKeyboardRemove
+
 from telegram.ext import ContextTypes, ConversationHandler, MessageHandler, filters
 from utils import procesar_texto
 #from telegram import ReplyKeyboardMarkup
@@ -93,28 +94,21 @@ async def manejar_agradecimiento(update: Update, context: ContextTypes.DEFAULT_T
 
 async def manejar_volver_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Maneja la decisión de volver al menú principal."""
+    from mi_bot import botones_principales  # Importación local para evitar circularidad
+    
     texto = update.message.text.lower()
     
     if any(p in texto for p in ["sí", "si", "volver"]):
-        # Importamos el teclado principal solo cuando se necesita
-        from mi_bot import botones_principales
-        teclado_principal = ReplyKeyboardMarkup(
-            botones_principales,
-            resize_keyboard=True
-        )
+        # Primero enviamos el mensaje de confirmación
         await update.message.reply_text(
-            "Volviendo al menú principal...",
-            reply_markup=ReplyKeyboardMarkup([[]], resize_keyboard=True)
+            "Por favor esribe /start para reiniciar el bot.",
+            reply_markup=ReplyKeyboardRemove()  # Limpiamos teclado actual
         )
-        # Luego enviamos el teclado principal
-        await update.message.reply_text(
-            "Menú principal:",
-            reply_markup=botones_principales
-        )
+        
     else:
         await update.message.reply_text(
             "De acuerdo. Puedes continuar con lo que necesites.",
-            reply_markup=ReplyKeyboardMarkup([[]], resize_keyboard=True)  # Elimina teclado
+            reply_markup=ReplyKeyboardRemove()
         )
     
     return ConversationHandler.END
