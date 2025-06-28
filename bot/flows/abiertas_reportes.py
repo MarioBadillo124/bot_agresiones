@@ -5,10 +5,28 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 PALABRAS_CLAVE_AGRESION = [
-    "agresión", "agresion", "pelea", "violencia", "golpes", "están peleando",
-    "peleando", "agredir", "empujando", "pegando", "molestando", "abusando",
-    "están molestando", "lastimaron", "amenazando", "burlando", "empujón", "empujones"
+    # Verbos comunes relacionados con agresión física o emocional
+    "agresión", "agresion", "agredir", "agrediendo", "agredieron",
+    "pelea", "peleas", "pelear", "peleando", "pelearon",
+    "golpes", "golpe", "golpear", "golpeando", "golpearon",
+    "pegan", "pegando","pega", "le pegaron", "lo están pegando", "le están pegando",
+    "empujar", "empujando", "empujones", "empujón", "empujaron",
+    "lastimar", "lastimaron", "lastimando", "lo lastimaron",
+    "herir", "hiriendo", "herido", "herida",
+    "violencia", "violento", "violenta", "lo están violentando",
+    "abuso", "abusando", "abusaron", "abusador", "abusadora",
+    "molestar", "molestando", "molestaron", "están molestando",
+    "burlando", "burlas", "se burlan", "me están molestando",
+    "amenaza", "amenazas", "amenazando", "me amenazó",
+    "patear", "pateando", "patadas", "cachetadas", "arañazos", "manotazos",
+    "tiraron al piso", "lo empujaron", "le dieron un golpe", "le pegaron", "me pegó",
+
+    # Frases comunes o expresiones completas
+    "lo están golpeando", "están peleando", "vi una pelea", "acabo de ver una agresión",
+    "están agrediendo a alguien", "vi que lo empujaron", "vi que le pegaron", "hay una pelea",
+    "alguien está pegando", "hay violencia", "hay una pelea en el salón"
 ]
+
 
 RESPUESTAS_AGRESION = [
     "🚨 Parece que estás describiendo una situación de agresión. Si es urgente, avisa a un docente de inmediato. También puedes usar el botón 🚨 *Reportar Agresión*.",

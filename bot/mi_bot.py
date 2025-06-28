@@ -15,7 +15,6 @@ from flows.reportar import (
     confirmar_reporte,
     manejar_volver_menu,
     confirmar_agradecimiento,
-
     cancelar as cancelar_reporte,
     PREGUNTAR_LUGAR,
     PREGUNTAR_HORA,
@@ -32,7 +31,6 @@ from flows.denuncia import (
     CONFIRMACION
 )
 
-#Información
 from telegram.ext import CommandHandler, CallbackQueryHandler
 
 from flows.recursos import mostrar_recursos
@@ -40,11 +38,11 @@ from flows.emergencia import mostrar_emergencia
 from flows.docentes import mostrar_info_docentes
 from flows.acerca import mostrar_acerca
 from flows.otras import manejar_otras_preguntas
-# 👇 NUEVO: Importa el archivo de preguntas abiertas
 from flows.abiertas_reportes import manejar_preguntas_abiertas
-from flows.saludos import manejar_saludos
-# Importa el archivo de información
-from flows.otras import manejar_consultas_info
+from flows.saludos import manejar_saludos, SALUDOS
+from flows.registro_mensajes import registrar_mensaje
+from flows.keywords_agresion import PALABRAS_CLAVE_AGRESION
+from flows.informacion import manejar_consultas_info
 
 TOKEN = "7957581596:AAHhS_M3yr7bzQtQ8UurwpdbQkbcuf1IAeA"
 
@@ -72,34 +70,49 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
-
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    registrar_mensaje(update)
     texto = update.message.text.lower()
-    respondio_saludo = False  # Inicializamos la variable
 
-
-    if texto == "📚 Recursos Educativos":
+    if texto == "📚 recursos educativos":
         await mostrar_recursos(update, context)
-    elif texto == "🆘 SOS Emergencia":
+    elif texto == "🆘 sos emergencia":
         await mostrar_emergencia(update, context)
-    elif texto == "🏫 Info para Docentes":
+    elif texto == "🏫 info para docentes":
         await mostrar_info_docentes(update, context)
-    elif texto == "ℹ️ Acerca del Bot":
+    elif texto == "ℹ️ acerca del bot":
         await mostrar_acerca(update, context)
-    elif "reportar" in texto.lower():
+    elif "reportar" in texto:
         await iniciar_reporte(update, context)
     else:
+        contiene_saludo = any(s in texto for s in SALUDOS)
+        contiene_agresion = any(a in texto for a in PALABRAS_CLAVE_AGRESION)
+
+        if contiene_saludo and contiene_agresion:
+            await update.message.reply_text(
+                "👋 ¡Hola! Gracias por escribir.\n\n"
+                "🚨 Detecté que mencionaste una posible agresión.\n"
+                "🔔 Si es urgente, avisa a un docente ahora mismo.\n"
+                "📝 También puedes usar el botón 🚨 *Reportar Agresión* o escribir *reportar* para iniciar.",
+                parse_mode="Markdown"
+            )
+            return
+
+        respondio_abierta = await manejar_preguntas_abiertas(update, context)
+        if respondio_abierta:
+            return
+
         respondio_saludo = await manejar_saludos(update, context)
-        if not respondio_saludo:
-            respondio_info = await manejar_consultas_info(update, context)
-            if not respondio_info:
-                respondio_abierta = await manejar_preguntas_abiertas(update, context)
-                if not respondio_abierta:
-                    await manejar_otras_preguntas(update, context)
+        if respondio_saludo:
+            return
+
+        respondio_info = await manejar_consultas_info(update, context)
+        if not respondio_info:
+            await manejar_otras_preguntas(update, context)
 
 def main():
     app = Application.builder().token(TOKEN).build()
-    
+
     reporte_handler = ConversationHandler(
         entry_points=[MessageHandler(filters.Regex("^🚨 Reportar Agresión$"), iniciar_reporte)],
         states={
@@ -107,14 +120,12 @@ def main():
             PREGUNTAR_HORA: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_hora)],
             PREGUNTAR_DESCRIPCION: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_descripcion)],
             CONFIRMAR_REPORTE: [MessageHandler(filters.TEXT & ~filters.COMMAND, confirmar_reporte)],
-
             PREGUNTAR_VOLVER_MENU: [MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_volver_menu)],
-
         },
         fallbacks=[CommandHandler("cancelar", cancelar_reporte)],
         allow_reentry=True
     )
-    
+
     denuncia_handler = ConversationHandler(
         entry_points=[MessageHandler(filters.Regex("^📢 Denuncia Anónima$"), iniciar_denuncia)],
         states={
@@ -123,14 +134,13 @@ def main():
         },
         fallbacks=[CommandHandler("cancelar", cancelar_denuncia)],
     )
-    
+
     app.add_handler(reporte_handler)
     app.add_handler(denuncia_handler)
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    
-    # 👉 Esto es lo que faltaba
+
     app.run_polling()
-    
+
 if __name__ == "__main__":
     main()
