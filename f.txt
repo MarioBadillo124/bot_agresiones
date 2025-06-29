@@ -1,3 +1,5 @@
+el thml dame entonces el codigo actualizado
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +17,7 @@
                 <img src="images/iconos/logo.jpg" alt="logo">
             </div>
             <div class="search">
-                <br><h1>Vista en tiempo reals</h1><br>
+                <br><h1>Vista en tiempo real</h1><br>
             </div>
         </div>
 
@@ -23,9 +25,9 @@
             <nav>
                 <ul>
                     <li><a href="menu.html"></a></li>
-                    <li><a href="live-view.html" >Vista en tiempo real</a></li>
-                    <li><a href="incidents.html" >Historico de incidentes</a></li>
-                    <li><a href="statistics.html" >Estadisticas</a></li>
+                    <li><a href="live-view.html">Vista en tiempo real</a></li>
+                    <li><a href="incidents.html">Historico de incidentes</a></li>
+                    <li><a href="statistics.html">Estadisticas</a></li>
                     <li><a href="" id="selected">Administracion</a></li>
                 </ul>
             </nav>
@@ -40,14 +42,9 @@
         <!-- Formulario de Registro -->
         <div class="card">
             <h2 class="card-title">Agregar Nuevo Usuario</h2>
-            <form id="userForm">
+            <form id="userForm" action="db/guardar_usuario.php" method="POST">
                 <div class="form-row">
                     <div class="form-col">
-                        <div class="form-group">
-                            <label for="fullname">Nombre Completo:</label>
-                            <input type="text" id="fullname" name="fullname" required>
-                        </div>
-                        
                         <div class="form-group">
                             <label for="username">Nombre de Usuario:</label>
                             <input type="text" id="username" name="username" required>
@@ -105,32 +102,33 @@
         <div class="card">
             <h2 class="card-title">Buscar Usuarios</h2>
             <div class="search-section">
-                <div class="search-input">
-                    <input type="text" id="searchInput" placeholder="Buscar por nombre, usuario o email...">
-                </div>
-                <div class="search-filter">
-                    <select id="roleFilter">
-                        <option value="">Todos los roles</option>
-                        <option value="administrador">Administrador</option>
-                        <option value="director">Director</option>
-                        <option value="profesor">Profesor</option>
-                    </select>
-                </div>
-                <div class="search-filter">
-                    <select id="statusFilter">
-                        <option value="">Todos los estados</option>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                    </select>
-                </div>
-                <button class="btn btn-search">Buscar</button>
+                <form method="GET" action="">
+                    <div class="search-input">
+                        <input type="text" id="searchInput" name="search" placeholder="Buscar por usuario o email..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                    </div>
+                    <div class="search-filter">
+                        <select id="roleFilter" name="role">
+                            <option value="">Todos los roles</option>
+                            <option value="administrador" <?php echo (isset($_GET['role']) && $_GET['role'] == 'administrador') ? 'selected' : ''; ?>>Administrador</option>
+                            <option value="director" <?php echo (isset($_GET['role']) && $_GET['role'] == 'director') ? 'selected' : ''; ?>>Director</option>
+                            <option value="profesor" <?php echo (isset($_GET['role']) && $_GET['role'] == 'profesor') ? 'selected' : ''; ?>>Profesor</option>
+                        </select>
+                    </div>
+                    <div class="search-filter">
+                        <select id="statusFilter" name="status">
+                            <option value="">Todos los estados</option>
+                            <option value="activo" <?php echo (isset($_GET['status']) && $_GET['status'] == 'activo') ? 'selected' : ''; ?>>Activo</option>
+                            <option value="inactivo" <?php echo (isset($_GET['status']) && $_GET['status'] == 'inactivo') ? 'selected' : ''; ?>>Inactivo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-search">Buscar</button>
+                </form>
             </div>
             
             <!-- Tabla de Usuarios Registrados -->
             <table id="usersTable">
                 <thead>
                     <tr>
-                        <th>Nombre Completo</th>
                         <th>Usuario</th>
                         <th>Email</th>
                         <th>Rol</th>
@@ -139,44 +137,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Juan Pérez</td>
-                        <td>jperez</td>
-                        <td>juan.perez@example.com</td>
-                        <td>Administrador</td>
-                        <td class="status-active">Activo</td>
-                        <td class="actions">
-                            <button class="btn btn-action btn-edit">Editar</button>
-                            <button class="btn btn-action btn-delete">Eliminar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>María García</td>
-                        <td>mgarcia</td>
-                        <td>maria.garcia@example.com</td>
-                        <td>Director</td>
-                        <td class="status-active">Activo</td>
-                        <td class="actions">
-                            <button class="btn btn-action btn-edit">Editar</button>
-                            <button class="btn btn-action btn-delete">Eliminar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Carlos López</td>
-                        <td>clopez</td>
-                        <td>carlos.lopez@example.com</td>
-                        <td>Profesor</td>
-                        <td class="status-inactive">Inactivo</td>
-                        <td class="actions">
-                            <button class="btn btn-action btn-edit">Editar</button>
-                            <button class="btn btn-action btn-delete">Eliminar</button>
-                        </td>
-                    </tr>
+                    <?php foreach ($usuarios as $usuario): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($usuario['usuario'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($usuario['correo'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($usuario['rol'] ?? ''); ?></td>
+                            <td class="status-<?php echo ($usuario['estado'] ?? '') == 'activo' ? 'active' : 'inactive'; ?>">
+                                <?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>
+                            </td>
+                            <td class="actions">
+                                <button class="btn btn-action btn-edit" data-id="<?php echo $usuario['id']; ?>">Editar</button>
+                                <button class="btn btn-action btn-delete" data-id="<?php echo $usuario['id']; ?>">Eliminar</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>
