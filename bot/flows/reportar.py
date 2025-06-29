@@ -22,7 +22,7 @@ async def manejar_lugar(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Procesa la respuesta del lugar."""
 
     texto = update.message.text
-    lugar = procesar_texto(texto, ["patio", "baños", "salón", "comedor"])
+    lugar = procesar_texto(texto, ["patio", "canchas", "baños", "salón", "comedor"])
     
     if lugar:
         context.user_data["lugar"] = lugar

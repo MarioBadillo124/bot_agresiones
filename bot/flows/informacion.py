@@ -2,13 +2,17 @@
 
 from telegram import Update
 from telegram.ext import ContextTypes
+from flows.texto import quitar_acentos
+
 
 async def manejar_consultas_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    texto = update.message.text.lower()
+    texto = quitar_acentos(update.message.text.lower())
 
     if any(p in texto for p in [
-        "qué es una agresión", "que es una agresion", "qué es agresion", "que es agresión",
-        "violencia escolar", "bullying que es", "acoso escolar que es", "definicion agresion"
+        "qué es una agresión", "q es agrezion", "q es una agrezion", "k es agrezion", "k es una agrezion",
+        "qes agrezion", "que es una agresion", "qué es agresion", "que es agresión", "q ez agrezion",
+        "k ez agrezion", "k es agresion", "k es agrecion", 
+        "violencia escolar", "bullying que es", "acoso escolar que es", "definicion agresion", "qes una agrezion"
     ]):
         await update.message.reply_text(
             "📌 *¿Qué es una agresión física?*\n\n"

@@ -3,29 +3,64 @@
 import random
 from telegram import Update
 from telegram.ext import ContextTypes
+from flows.texto import quitar_acentos
 
 PALABRAS_CLAVE_AGRESION = [
-    # Verbos comunes relacionados con agresión física o emocional
-    "agresión", "agresion", "agredir", "agrediendo", "agredieron",
-    "pelea", "peleas", "pelear", "peleando", "pelearon",
-    "golpes", "golpe", "golpear", "golpeando", "golpearon",
-    "pegan", "pegando","pega", "le pegaron", "lo están pegando", "le están pegando",
-    "empujar", "empujando", "empujones", "empujón", "empujaron",
-    "lastimar", "lastimaron", "lastimando", "lo lastimaron",
-    "herir", "hiriendo", "herido", "herida",
-    "violencia", "violento", "violenta", "lo están violentando",
-    "abuso", "abusando", "abusaron", "abusador", "abusadora",
-    "molestar", "molestando", "molestaron", "están molestando",
-    "burlando", "burlas", "se burlan", "me están molestando",
-    "amenaza", "amenazas", "amenazando", "me amenazó",
-    "patear", "pateando", "patadas", "cachetadas", "arañazos", "manotazos",
-    "tiraron al piso", "lo empujaron", "le dieron un golpe", "le pegaron", "me pegó",
+    # AGRESIÓN (y errores con z, c, repeticiones)
+    "agresion", "agresion fisica", "agresion emocional", "agrezion fizica", 
+    "agredir", "agrediendo", "agredieron",
+    "agrecion", "agreccion", "agrecciones",  # errores frecuentes
+    "agrezion", "agreziones", "agreciones", "agrezion fisica",
 
-    # Frases comunes o expresiones completas
-    "lo están golpeando", "están peleando", "vi una pelea", "acabo de ver una agresión",
-    "están agrediendo a alguien", "vi que lo empujaron", "vi que le pegaron", "hay una pelea",
-    "alguien está pegando", "hay violencia", "hay una pelea en el salón"
+    # PELEAS
+    "pelea", "peleas", "pelear", "peleando", "pelearon",
+    "pleito", "bronca", "se pelearon", "se andan peleando",
+
+    # SLANG golpes
+    "madrazos", "trancazos", "trancasos", "se agarraron a madrazos", 
+    "se agarraron a trancazos", "se agarraron", "se armaron los golpes",
+    "se andan dando", "se dieron con todo", "andan de pleito", "se traen bronca",
+
+    # GOLPES y variantes con z
+    "golpes", "golpez", "golpe", "golpiar", "golpiaron", "golpeando", "golpearon",
+    "golpio", "golpiando", "golpizaron", "golpizando",
+
+    # PEGAR
+    "pegan", "pegando", "pega", "pegon", "pegandole",
+    "le pegaron", "lo estan pegando", "le estan pegando", "me pego",
+
+    # EMPUJAR
+    "empujar", "empujando", "empujones", "empujon", "empujaron",
+    "empujoncito", "empujonesitos",
+
+    # LASTIMAR / HERIR
+    "lastimar", "lastimaron", "lastimando", "lastimado", "lastimada", "lastimo",
+    "herir", "hiriendo", "herido", "herida", "lo hirieron", "la hirieron", "me hirieron",
+
+    # VIOLENCIA
+    "violencia", "violento", "violenta", "lo estan violentando", "violentiaron",
+
+    # ABUSO
+    "abuso", "abusando", "abusaron", "abusador", "abusadora", "abuson", "abusona",
+
+    # MOLESTAR / BURLAS
+    "molestar", "molestando", "molestaron", "me estan molestando", "me molestan", "me molesta",
+    "burlando", "burlas", "se burlan", "burlandose", "burlarse",
+
+    # AMENAZAS
+    "amenaza", "amenazas", "amenazando", "me amenazo", "amenazo",
+
+    # PATEAR y otros golpes
+    "patear", "pateando", "patadas", "patearon", "patiaron",
+    "cachetadas", "arañazos", "manotazos",
+
+    # FRASES COMPLETAS
+    "tiraron al piso", "lo empujaron", "lo tiraron", "le dieron un golpe",
+    "lo estan golpeando", "estan peleando", "vi una pelea", "acabo de ver una agresion",
+    "estan agrediendo a alguien", "vi que lo empujaron", "vi que le pegaron",
+    "hay una pelea", "alguien esta pegando", "hay violencia", "hay una pelea en el salon"
 ]
+
 
 
 RESPUESTAS_AGRESION = [
@@ -42,13 +77,13 @@ RESPUESTAS_QUE_HAGO = [
 ]
 
 async def manejar_preguntas_abiertas(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    texto = update.message.text.lower()
+    texto = quitar_acentos(update.message.text.lower())
 
     if any(p in texto for p in PALABRAS_CLAVE_AGRESION):
         await update.message.reply_text(random.choice(RESPUESTAS_AGRESION))
         return True
     
-    elif any(p in texto for p in ["qué hago", "que hago", "ayuda", "debo hacer", "cómo procedo", "que hago si veo", "qué hago si veo"]):
+    elif any(p in texto for p in ["qué hago", "que hago", "q hago", "k hago", "q ago", "k ago", "que ago", "que hajo", "qe hago", "ke hago", "ayuda", "debo hacer", "cómo procedo", "que hago si veo", "qué hago si veo"]):
         await update.message.reply_text(random.choice(RESPUESTAS_QUE_HAGO))
         return True
     
