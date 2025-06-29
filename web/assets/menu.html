@@ -13,9 +13,6 @@
 
     <header>
         <div class="superior">
-            <div class="logo">
-                <img src="images/iconos/logo.jpg" alt="logo">
-            </div>
             <div class="search">
                 <br><h1>Deteccion de agreciones fisicas</h1><br>
             </div>
@@ -29,6 +26,8 @@
                     <li><a href="incidents.html" >Historico de incidentes</a></li>
                     <li><a href="statistics.html" >Estadisticas</a></li>
                     <li><a href="admin.php" >Administracion</a></li>
+                    <li><a href="ayuda.html" >Ayuda</a></li>
+                    <li><a onclick="window.location.href='../../index.html'">cerrar sesion</a></li>
                 </ul>
             </nav>
         </div>
@@ -119,27 +118,11 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Mapa de la Escuela -->
-                <div class="card school-map">
-                    <div class="card-header">
-                        <h2>Mapa de la Escuela</h2>
-                    </div>
-                    <div class="card-body">
-                        <img src="images/school-map.png" alt="Mapa de la Escuela" usemap="#schoolmap">
-                        <map name="schoolmap">
-                            <area shape="rect" coords="100,200,250,300" href="live-view.html?camera=1" alt="Patio Principal">
-                            <area shape="rect" coords="300,150,450,250" href="live-view.html?camera=2" alt="Entrada Principal">
-                            <area shape="rect" coords="500,200,650,300" href="live-view.html?camera=3" alt="Cancha de Fútbol">
-                            <area shape="rect" coords="200,350,350,450" href="live-view.html?camera=4" alt="Comedor">
-                        </map>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
 
-    <button onclick="window.location.href='../../index.html'">salir</button>
+    <button >salir</button>
 </body>
 </html>

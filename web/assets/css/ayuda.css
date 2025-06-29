@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    padding: 150px;
+}
+
+.ayuda-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+}
+
+section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #ccc;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.6rem;
+}
+
+.manual-links,
+.faq ul {
+    margin-top: 1rem;
+}
+
+.btn-manual,
+.btn-chatbot {
+    display: inline-block;
+    margin: 0.5rem 1rem 0.5rem 0;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    background-color: #1d72b8;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.btn-manual:hover,
+.btn-chatbot:hover {
+    background-color: #155a94;
+}
+
+.faq ul {
+    list-style: none;
+    padding: 0;
+}
+
+.faq li {
+    margin: 0.8rem 0;
+}
+
+/* Contenedor general */
+.contact-form {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título del formulario */
+.contact-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Etiquetas */
+.contact-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Campos de entrada */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #0066cc;
+    outline: none;
+}
+
+/* Botón de enviar */
+.contact-form button[type="submit"] {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: #0066cc;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-form button[type="submit"]:hover {
+    background-color: #004a99;
+}

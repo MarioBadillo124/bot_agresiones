@@ -79,17 +79,14 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Usuarios</title>
     <link rel="stylesheet" href="css/estilos_barra_menu.css">
-    <link rel="stylesheet" href="css/usuarios.css">
+    <link rel="stylesheet" href="css/prueva.css">
 </head>
 <body>
 
     <header>
         <div class="superior">
-            <div class="logo">
-                <img src="images/iconos/logo.jpg" alt="logo">
-            </div>
             <div class="search">
-                <br><h1>Vista en tiempo real</h1><br>
+                <br><h1>Sistema de Gestión de Usuarios</h1><br>
             </div>
         </div>
 
@@ -101,15 +98,14 @@ $conn->close();
                     <li><a href="incidents.html">Historico de incidentes</a></li>
                     <li><a href="statistics.html">Estadisticas</a></li>
                     <li><a href="" id="selected">Administracion</a></li>
+                    <li><a href="ayuda.html" >Ayuda</a></li>
+                    <li><a onclick="window.location.href='../../index.html'">cerrar sesion</a></li>
                 </ul>
             </nav>
         </div>
     </header><br>
 
     <div class="container">
-        <div class="header">
-            <h1>Sistema de Gestión de Usuarios</h1>
-        </div>
         
         <!-- Formulario de Registro -->
         <div class="card">
