@@ -102,3 +102,20 @@
 [2025-06-28 20:57:57] TG_Raul: Hola
 [2025-06-28 21:00:23] TG_Raul: Volver al menú
 [2025-06-28 21:00:33] TG_Raul: Acerca del bot
+[2025-06-28 21:05:58] Lizbeth: 📚 Recursos Educativos
+[2025-06-28 21:06:35] Lizbeth: 🏫 Info para Docentes
+[2025-06-28 21:08:18] Lizbeth: Nop
+[2025-06-28 21:08:31] Lizbeth: Un chiste
+[2025-06-28 21:08:50] Lizbeth: Clima
+[2025-06-28 21:09:03] Lizbeth: Qué día es hoy
+[2025-06-28 21:09:26] Lizbeth: Qué es golpear
+[2025-06-28 21:10:05] Lizbeth: Contactos de emergencia
+[2025-06-28 21:10:42] Lizbeth: A quien llamo en caso de agresion?
+[2025-06-28 21:13:18] Lizbeth: ℹ️ Acerca del Bot
+[2025-06-28 21:13:56] Lizbeth: Háblame de política
+[2025-06-28 21:14:05] Lizbeth: Política
+[2025-06-28 21:14:10] Lizbeth: Futbol
+[2025-06-28 21:14:27] Lizbeth: Háblame de historia
+[2025-06-28 21:14:49] Lizbeth: Cuánto es 2+2
+[2025-06-28 21:15:07] Lizbeth: Háblame de política
+[2025-06-28 21:15:22] Lizbeth: Háblame de drogas
