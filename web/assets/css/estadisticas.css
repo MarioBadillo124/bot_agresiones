@@ -1,0 +1,164 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    padding: 200px;
+}
+
+
+/* Acciones */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px 10px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.period-selector select {
+    padding: 6px 10px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.btn.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Contenido principal */
+.content {
+    padding: 20px 40px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 30px;
+}
+
+/* Tarjetas */
+.stat-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.stat-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.stat-card.big {
+    grid-column: span 2;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat-item {
+    flex: 1;
+    min-width: 180px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.stat-change {
+    font-size: 0.9rem;
+}
+
+.stat-change.up {
+    color: #28a745;
+}
+
+.stat-change.down {
+    color: #dc3545;
+}
+
+/* Canvases */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Sección Reporte */
+.report-section {
+    margin-top: 50px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.report-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+form#reportForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="date"],
+.form-group select {
+    padding: 8px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#customDateRange {
+    display: none;
+}
+
+form#reportForm label input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Botón de descarga */
+form#reportForm button[type="submit"] {
+    align-self: flex-start;
+    margin-top: 10px;
+}

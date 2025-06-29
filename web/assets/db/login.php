@@ -10,12 +10,12 @@ if (isset($_POST['login'])) {
     $contrasena = $_POST['pass'];
 
     // Proteger los datos contra inyecciones SQL
-    $userr = mysqli_real_escape_string($conexion, $userr);
-    $contrasena = mysqli_real_escape_string($conexion, $contrasena);
+    $userr = mysqli_real_escape_string($conn, $userr);
+    $contrasena = mysqli_real_escape_string($conn, $contrasena);
 
     // Ejecutamos la consulta para verificar las credenciales
     $sql = "SELECT * FROM usuarios WHERE usuario = '$userr' AND contrasena = '$contrasena'";
-    $resultado = mysqli_query($conexion, $sql);
+    $resultado = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($resultado) > 0) {
         // Credenciales válidas: establecer variables de sesión
@@ -34,5 +34,5 @@ if (isset($_POST['login'])) {
 }
 
 // Cerrar la conexión
-mysqli_close($conexion);
+mysqli_close($connn);
 ?>
