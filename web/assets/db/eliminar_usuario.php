@@ -1,22 +1,23 @@
 <?php
-require_once 'conexion.php';
+include("conexion.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-    parse_str(file_get_contents("php://input"), $deleteParams);
-    $id = $deleteParams['id'] ?? 0;
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
     
     $stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
     $stmt->bind_param("i", $id);
-    
-    header('Content-Type: application/json');
     if ($stmt->execute()) {
-        echo json_encode(['success' => true]);
+        $status = "deleted";
     } else {
-        echo json_encode(['success' => false]);
+        $status = "delete_error";
     }
+    $stmt->close();
+    $conn->close();
+    
+    header("Location: ../admin.php?status=$status");
+    exit();
+} else {
+    header("Location: ../admin.php?status=invalid_id");
     exit();
 }
-
-header("Location: admin.php");
-exit();
 ?>

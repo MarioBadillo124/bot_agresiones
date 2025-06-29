@@ -19,8 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($password !== $confirm_password) {
             $status_msg = "password_mismatch";
         } else {
-            // Encriptar la contraseña (recomendado)
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // Preparar la consulta para insertar
             $stmt = $conn->prepare("INSERT INTO usuarios (usuario, correo, contrasena, rol,  estado) VALUES (?, ?, ?, ?, ?)");

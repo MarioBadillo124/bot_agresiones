@@ -173,29 +173,36 @@ $conn->close();
         <!-- Sección de Búsqueda -->
         <div class="card">
             <h2 class="card-title">Buscar Usuarios</h2>
-            <div class="search-section">
-                <form method="GET" action="">
-                    <div class="search-input">
+            <form method="GET" action="" class="search-form">
+                <div class="filter-row">
+                    <div class="search-box">
                         <input type="text" id="searchInput" name="search" placeholder="Buscar por usuario o email..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                     </div>
-                    <div class="search-filter">
-                        <select id="roleFilter" name="role">
+
+                    <div class="filter-group">
+                        <select id="roleFilter" name="role" class="filter-select">
                             <option value="">Todos los roles</option>
                             <option value="administrador" <?php echo (isset($_GET['role']) && $_GET['role'] == 'administrador') ? 'selected' : ''; ?>>Administrador</option>
                             <option value="director" <?php echo (isset($_GET['role']) && $_GET['role'] == 'director') ? 'selected' : ''; ?>>Director</option>
                             <option value="profesor" <?php echo (isset($_GET['role']) && $_GET['role'] == 'profesor') ? 'selected' : ''; ?>>Profesor</option>
                         </select>
                     </div>
-                    <div class="search-filter">
-                        <select id="statusFilter" name="status">
+
+                    <div class="filter-group">
+                        <select id="statusFilter" name="status" class="filter-select">
                             <option value="">Todos los estados</option>
                             <option value="activo" <?php echo (isset($_GET['status']) && $_GET['status'] == 'activo') ? 'selected' : ''; ?>>Activo</option>
                             <option value="inactivo" <?php echo (isset($_GET['status']) && $_GET['status'] == 'inactivo') ? 'selected' : ''; ?>>Inactivo</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-search">Buscar</button>
-                </form>
-            </div>
+
+                    <div class="filter-group">
+                        <button type="submit" class="btn-search">🔍 Buscar</button>
+                    </div>
+                </div>
+            </form>
+
+
             
             <!-- Tabla de Usuarios Registrados -->
             <table id="usersTable">
@@ -218,7 +225,16 @@ $conn->close();
                                 <?php echo htmlspecialchars($usuario['estado'] ?? ''); ?>
                             </td>
                             <td class="actions">
-                                <button class="btn btn-action btn-edit" data-id="<?php echo $usuario['id']; ?>">Editar</button>
+                                <button class="btn btn-action btn-edit"
+                                    data-id="<?php echo $usuario['id']; ?>"
+                                    data-usuario="<?php echo htmlspecialchars($usuario['usuario'] ?? ''); ?>"
+                                    data-correo="<?php echo htmlspecialchars($usuario['correo'] ?? ''); ?>"
+                                    data-rol="<?php echo $usuario['rol'] ?? ''; ?>"
+                                    data-estado="<?php echo $usuario['estado'] ?? ''; ?>"
+                                    type="button">
+                                    Editar
+                                </button>
+
                                 <button class="btn btn-action btn-delete" data-id="<?php echo $usuario['id']; ?>">Eliminar</button>
                             </td>
                         </tr>
@@ -228,6 +244,38 @@ $conn->close();
         </div>
     </div>
 
-    <script src="js/admin.js"></script>
+    <!-- Modal de Edición -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="margin-top: 0;">Editar Usuario</h2>
+            <form action="db/editar_usuario.php" method="POST">
+                <input type="hidden" id="edit_id" name="id">
+
+                <label for="edit_username">Usuario:</label>
+                <input type="text" id="edit_username" name="username" required>
+
+                <label for="edit_correo">Correo:</label>
+                <input type="email" id="edit_correo" name="correo" required>
+
+                <label for="edit_role">Rol:</label>
+                <select id="edit_role" name="role" required>
+                    <option value="administrador">Administrador</option>
+                    <option value="director">Director</option>
+                    <option value="profesor">Profesor</option>
+                </select>
+
+                <label for="edit_estado">Estado:</label>
+                <select id="edit_estado" name="status" required>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+
+                <button type="submit" class="btn-save">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/edit_modal.js"></script>
 </body>
 </html>
