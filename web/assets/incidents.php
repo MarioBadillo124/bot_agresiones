@@ -27,10 +27,7 @@ if ($start && $end) {
 $sql .= " ORDER BY fecha DESC, hora DESC";
 
 $resultado = mysqli_query($conn, $sql);
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -145,7 +142,7 @@ $resultado = mysqli_query($conn, $sql);
                         <div class="modal-body">
                             <div class="video-container">
                                 <video controls>
-                                    <source src="videos/incident_20230615_101523.mp4" type="video/mp4">
+                                    <source src="videos/1.mp4" type="video/mp4">
                                     Tu navegador no soporta videos HTML5.
                                 </video>
                             </div>

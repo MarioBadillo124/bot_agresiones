@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Preparar la consulta para insertar
             $stmt = $conn->prepare("INSERT INTO usuarios (usuario, correo, contrasena, rol,  estado) VALUES (?, ?, ?, ?, ?)");
             if ($stmt) {
-                $stmt->bind_param("sssss", $username, $correo, $hashed_password, $role,  $status);
+                $stmt->bind_param("sssss", $username, $correo, $password, $role,  $status);
                 if ($stmt->execute()) {
                     $status_msg = "success";
                 } else {

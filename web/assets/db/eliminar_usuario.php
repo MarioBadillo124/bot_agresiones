@@ -1,23 +1,21 @@
 <?php
-include("conexion.php");
+require_once 'conexion.php';
 
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $id = intval($_POST['id']);
     
     $stmt = $conn->prepare("DELETE FROM usuarios WHERE id = ?");
     $stmt->bind_param("i", $id);
+
     if ($stmt->execute()) {
-        $status = "deleted";
+        echo json_encode(["success" => true]);
     } else {
-        $status = "delete_error";
+        echo json_encode(["success" => false, "error" => "No se pudo eliminar el usuario."]);
     }
+
     $stmt->close();
     $conn->close();
-    
-    header("Location: ../admin.php?status=$status");
-    exit();
-} else {
-    header("Location: ../admin.php?status=invalid_id");
-    exit();
+    exit;
 }
+echo json_encode(["success" => false, "error" => "Solicitud inválida."]);
 ?>

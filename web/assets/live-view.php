@@ -47,10 +47,6 @@ header("Pragma: no-cache");
     </header><br>
 
     <div class="dashboard">
-        <!-- Sidebar (igual que en dashboard.html) -->
-        <!-- ... -->
-        
-        <!-- Main Content -->
         <div class="main-content">
             
             
@@ -75,9 +71,7 @@ header("Pragma: no-cache");
                             <button class="btn-control"><i class="fas fa-record-vinyl"></i></button>
                         </div>
                     </div>
-                    
-                    
-                    <!-- Más cámaras según sea necesario -->
+
                 </div>
                 
                 <div class="alert-panel">

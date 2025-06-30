@@ -284,7 +284,39 @@ $conn->close();
     </div>
 
     <script src="js/edit_modal.js"></script>
-    <!-- Tus scripts si tienes más -->
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-delete').forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.dataset.id;
+
+                    if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
+                        fetch('db/eliminar_usuario.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({ id: userId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("✅ Usuario eliminado correctamente.");
+                                location.reload(); // Recargar para actualizar la tabla
+                            } else {
+                                alert("❌ Error al eliminar el usuario: " + (data.error || ""));
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("❌ Error en la petición.");
+                        });
+                    }
+                });
+            });
+        });
+        </script>
+
+
     <script>
         // Si se navega hacia atrás, forzar recarga de la página
         window.addEventListener("pageshow", function (event) {

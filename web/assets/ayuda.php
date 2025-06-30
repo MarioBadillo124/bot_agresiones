@@ -49,7 +49,7 @@ header("Pragma: no-cache");
         <section class="manuales">
             <h2><i class="fas fa-book"></i> Manuales</h2>
             <div class="manual-links">
-                <a href="docs/manual_usuario.pdf" download class="btn-manual">
+                <a href="docs/manual_de_usuario.pdf" download class="btn-manual">
                     <i class="fas fa-file-download"></i> Descargar Manual de Usuario
                 </a>
                 <a href="docs/manual_tecnico.pdf" download class="btn-manual">
@@ -84,14 +84,6 @@ header("Pragma: no-cache");
         </div>
     </main>
 
-    <!-- Modal de error -->
-    <div id="loginErrorModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Error de inicio de sesión</h2>
-            <p>Usuario o contraseña incorrectos. Intenta de nuevo.</p>
-        </div>
-    </div>
 
     <!-- Tus scripts si tienes más -->
     <script>
