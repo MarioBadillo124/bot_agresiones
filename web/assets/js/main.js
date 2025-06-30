@@ -90,30 +90,4 @@ function cargarIncidentes(startDate = '', endDate = '') {
 }
 
 
-$(document).ready(function() {
-    // Carga todos los incidentes al inicio
-    cargarIncidentes();
-
-    // Modal: ver incidente
-    $(document).on('click', '.btn-action.view', function () {
-        $('#detailModal').fadeIn();
-    });
-
-    $('.close-modal').click(function () {
-        $('#detailModal').fadeOut();
-    });
-
-    // Filtro por fechas
-    $('.btn-filter').click(function () {
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
-
-        // Convertir fechas si vienen en formato dd/mm/yyyy (por seguridad)
-        startDate = formatearFecha(startDate);
-        endDate = formatearFecha(endDate);
-
-        cargarIncidentes(startDate, endDate);
-    });
-});
-
 

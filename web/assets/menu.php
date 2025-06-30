@@ -64,7 +64,7 @@ header("Pragma: no-cache");
                                 <h3>Agresión Física Detectada</h3>
                                 <p>Patio Principal - Hace 15 minutos</p>
                             </div>
-                            <a href="#" class="alert-action">Ver</a>
+
                         </div>
                         
                         <div class="alert-item warning">
@@ -75,7 +75,7 @@ header("Pragma: no-cache");
                                 <h3>Posible Conflicto</h3>
                                 <p>Cancha de Fútbol - Hace 1 hora</p>
                             </div>
-                            <a href="#" class="alert-action">Ver</a>
+
                         </div>
                         
                         <div class="alert-item info">
@@ -86,7 +86,7 @@ header("Pragma: no-cache");
                                 <h3>Actividad Sospechosa</h3>
                                 <p>Entrada Principal - Hoy, 10:15 AM</p>
                             </div>
-                            <a href="#" class="alert-action">Ver</a>
+
                         </div>
                     </div>
                 </div>

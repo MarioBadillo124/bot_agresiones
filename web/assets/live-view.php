@@ -62,12 +62,13 @@ header("Pragma: no-cache");
                             <span class="camera-status active"><i class="fas fa-circle"></i> Activa</span>
                         </div>
                         <div class="video-container">
-                            <img src="https://via.placeholder.com/800x450?text=Feed+en+vivo+Patio+Principal" alt="Cámara Patio Principal" class="live-feed">
+                            <video id="cameraPatio" class="live-feed" autoplay playsinline muted></video>
                             <div class="video-overlay">
                                 <button class="btn-overlay"><i class="fas fa-expand"></i></button>
                                 <button class="btn-overlay"><i class="fas fa-volume-up"></i></button>
                             </div>
                         </div>
+
                         <div class="camera-controls">
                             <button class="btn-control"><i class="fas fa-pause"></i></button>
                             <button class="btn-control"><i class="fas fa-camera"></i></button>
@@ -75,24 +76,6 @@ header("Pragma: no-cache");
                         </div>
                     </div>
                     
-                    <div class="camera-view">
-                        <div class="camera-header">
-                            <h3>Entrada Principal</h3>
-                            <span class="camera-status active"><i class="fas fa-circle"></i> Activa</span>
-                        </div>
-                        <div class="video-container">
-                            <img src="https://via.placeholder.com/800x450?text=Feed+en+vivo+Entrada+Principal" alt="Cámara Entrada Principal" class="live-feed">
-                            <div class="video-overlay">
-                                <button class="btn-overlay"><i class="fas fa-expand"></i></button>
-                                <button class="btn-overlay"><i class="fas fa-volume-up"></i></button>
-                            </div>
-                        </div>
-                        <div class="camera-controls">
-                            <button class="btn-control"><i class="fas fa-pause"></i></button>
-                            <button class="btn-control"><i class="fas fa-camera"></i></button>
-                            <button class="btn-control"><i class="fas fa-record-vinyl"></i></button>
-                        </div>
-                    </div>
                     
                     <!-- Más cámaras según sea necesario -->
                 </div>
