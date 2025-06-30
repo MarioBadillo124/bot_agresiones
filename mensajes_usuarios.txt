@@ -158,3 +158,27 @@
 [2025-06-28 21:54:08] Alan: Ahí te va una foto de mi pilln
 [2025-06-28 21:54:56] Alan: Ya hermano
 [2025-06-28 21:55:00] Alan: Apágalo
+[2025-06-29 12:36:31] Lizbeth: Eso es todo
+[2025-06-29 12:40:21] Lizbeth: 📚 Recursos Educativos
+[2025-06-29 12:41:31] Lizbeth: 🆘 SOS Emergencia
+[2025-06-29 12:41:45] Lizbeth: 🏫 Info para Docentes
+[2025-06-29 12:42:18] Lizbeth: ℹ️ Acerca del Bot
+[2025-06-29 12:42:36] Lizbeth: Hola
+[2025-06-29 12:42:51] Lizbeth: Dime un chiste
+[2025-06-29 12:43:05] Lizbeth: Dime la hora
+[2025-06-29 12:43:18] Lizbeth: A cuantos grados estamos
+[2025-06-29 12:43:39] Lizbeth: Hola
+[2025-06-29 12:43:49] Lizbeth: Dime un chiste
+[2025-06-29 12:44:02] Lizbeth: Dame la fecha y hora
+[2025-06-29 12:44:08] Lizbeth: Y la fecha
+[2025-06-29 12:44:30] Lizbeth: Dame la temperatura del día
+[2025-06-29 12:44:46] Lizbeth: Qué es la violencia
+[2025-06-29 12:45:00] Lizbeth: Qué es una agresion
+[2025-06-29 12:46:07] Lizbeth: Cuáles son los tipotiposs de
+[2025-06-29 12:46:26] Lizbeth: Cuáles son los tipos de agresion
+[2025-06-29 12:46:52] Lizbeth: A quien consulto en caso de agresion
+[2025-06-29 12:47:06] Lizbeth: A quien llamo en caso de agresion
+[2025-06-29 12:47:25] Lizbeth: Dame un dato histórico
+[2025-06-29 12:48:37] Lizbeth: Dame recomendaciones de películas
+[2025-06-29 12:48:47] Lizbeth: Háblame de política
+[2025-06-29 12:49:08] Lizbeth: Cuéntame de las drogas
