@@ -122,3 +122,8 @@ h2 {
 .contact-form button[type="submit"]:hover {
     background-color: #004a99;
 }
+
+.form-message {
+    margin-top: 10px;
+    font-weight: bold;
+}

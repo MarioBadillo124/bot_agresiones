@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../index.html");
+    exit();
+}
+
+// Evitar que el navegador guarde en caché la página
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,13 +33,13 @@
         <div class="container__menu">
             <nav>
                 <ul>
-                <li><a href="menu.html"></a></li>
-                <li><a href="live-view.html">Vista en tiempo real</a></li>
-                <li><a href="incidents.html">Histórico de incidentes</a></li>
-                <li><a href="statistics.html">Estadísticas</a></li>
+                <li><a href="menu.php"></a></li>
+                <li><a href="live-view.php">Vista en tiempo real</a></li>
+                <li><a href="incidents.php">Histórico de incidentes</a></li>
+                <li><a href="statistics.php">Estadísticas</a></li>
                 <li><a href="admin.php">Administración</a></li>
                 <li><a href="" id="selected">Ayuda</a></li>
-                <li><a onclick="window.location.href='../../index.html'">Cerrar sesión</a></li>
+                <li><a href="db/logout.php">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -47,14 +61,14 @@
         <section class="chatbot">
             <h2><i class="fab fa-telegram"></i> Chat de Soporte</h2>
             <p>Si tienes dudas o problemas, puedes contactar al asistente virtual:</p>
-            <a href="https://t.me/tu_chatbot" target="_blank" class="btn-chatbot">
+            <a href="https://web.telegram.org/a/#7957581596" target="_blank" class="btn-chatbot">
                 <i class="fab fa-telegram"></i> Ir al Chatbot en Telegram
             </a>
         </section>
 
         <div class="contact-form">
             <h2>Contáctanos</h2>
-            <form id="contactForm" action="enviar_consulta.php" method="POST">
+            <form id="contactForm">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
 
@@ -65,11 +79,33 @@
                 <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
 
                 <button type="submit">Enviar Mensaje</button>
+                <div id="formMessage" class="form-message"></div>
             </form>
         </div>
-
-
     </main>
+
+    <!-- Modal de error -->
+    <div id="loginErrorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Error de inicio de sesión</h2>
+            <p>Usuario o contraseña incorrectos. Intenta de nuevo.</p>
+        </div>
+    </div>
+
+    <!-- Tus scripts si tienes más -->
+    <script>
+        // Si se navega hacia atrás, forzar recarga de la página
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                // Esta página fue mostrada desde la caché (por botón atrás)
+                window.location.reload(); // Fuerza recarga para que el PHP redirija si no hay sesión
+            }
+        });
+    </script>
+
+    <script src="js/login_modal.js"></script>
+    <script src="js/ayuda.js"></script>
 
 </body>
 </html>

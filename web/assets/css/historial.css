@@ -126,13 +126,17 @@ body {
     display: none;
     position: fixed;
     top: 0; left: 0;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0,0,0,0.6);
     z-index: 9999;
+
+    display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;    /* aquí */
+    
     overflow-y: auto;
-    padding: 40px 20px;
+    padding: 40px 20px 20px 20px; /* espacio arriba */
     box-sizing: border-box;
 }
 
@@ -141,9 +145,14 @@ body {
     border-radius: 10px;
     max-width: 800px;
     width: 100%;
+
+    max-height: calc(100vh - 80px); /* para no pasar de pantalla */
+    overflow-y: auto;               /* scroll interno si es necesario */
+
     padding: 20px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
 }
+
 
 .modal-header {
     display: flex;

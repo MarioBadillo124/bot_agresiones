@@ -1,4 +1,15 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../index.html");
+    exit();
+}
+
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+
 require_once 'db/conexion.php';
 
 
@@ -93,13 +104,13 @@ $conn->close();
         <div class="container__menu">
             <nav>
                 <ul>
-                    <li><a href="menu.html"></a></li>
-                    <li><a href="live-view.html">Vista en tiempo real</a></li>
-                    <li><a href="incidents.html">Historico de incidentes</a></li>
-                    <li><a href="statistics.html">Estadisticas</a></li>
+                    <li><a href="menu.php"></a></li>
+                    <li><a href="live-view.php">Vista en tiempo real</a></li>
+                    <li><a href="incidents.php">Historico de incidentes</a></li>
+                    <li><a href="statistics.php">Estadisticas</a></li>
                     <li><a href="" id="selected">Administracion</a></li>
-                    <li><a href="ayuda.html" >Ayuda</a></li>
-                    <li><a onclick="window.location.href='../../index.html'">cerrar sesion</a></li>
+                    <li><a href="ayuda.php" >Ayuda</a></li>
+                    <li><a href="db/logout.php">Cerrar sesión</a></li>
                 </ul>
             </nav>
         </div>
@@ -273,5 +284,15 @@ $conn->close();
     </div>
 
     <script src="js/edit_modal.js"></script>
+    <!-- Tus scripts si tienes más -->
+    <script>
+        // Si se navega hacia atrás, forzar recarga de la página
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                // Esta página fue mostrada desde la caché (por botón atrás)
+                window.location.reload(); // Fuerza recarga para que el PHP redirija si no hay sesión
+            }
+        });
+    </script>
 </body>
 </html>

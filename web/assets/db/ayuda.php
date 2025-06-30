@@ -1,29 +1,27 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = htmlspecialchars(trim($_POST['nombre']));
-    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
-    $mensaje = htmlspecialchars(trim($_POST['mensaje']));
+header('Content-Type: application/json');
+include("conexion.php");
 
-    if ($nombre && $email && $mensaje) {
-        $destinatario = "admin@tusitio.com"; // CAMBIA este correo
-        $asunto = "Nuevo mensaje desde el formulario de contacto";
-        $contenido = "Nombre: $nombre\n";
-        $contenido .= "Email: $email\n\n";
-        $contenido .= "Mensaje:\n$mensaje\n";
+// Validación básica
+$nombre = trim($_POST['nombre'] ?? '');
+$email = trim($_POST['email'] ?? '');
+$mensaje = trim($_POST['mensaje'] ?? '');
 
-        $cabeceras = "From: $email\r\n";
-        $cabeceras .= "Reply-To: $email\r\n";
-
-        if (mail($destinatario, $asunto, $contenido, $cabeceras)) {
-            echo "<script>alert('Mensaje enviado correctamente.'); window.history.back();</script>";
-        } else {
-            echo "<script>alert('Error al enviar el mensaje. Intenta más tarde.'); window.history.back();</script>";
-        }
-    } else {
-        echo "<script>alert('Todos los campos son obligatorios.'); window.history.back();</script>";
-    }
-} else {
-    header("Location: ayuda.html");
+if ($nombre === '' || $email === '' || $mensaje === '') {
+    echo json_encode(['success' => false, 'message' => 'Todos los campos son obligatorios.']);
     exit;
 }
+
+// Guardar en base de datos
+$stmt = $conn->prepare("INSERT INTO mensajes_ayuda (nombre, email, mensaje, fecha_envio) VALUES (?, ?, ?, NOW())");
+$stmt->bind_param("sss", $nombre, $email, $mensaje);
+
+if ($stmt->execute()) {
+    echo json_encode(['success' => true, 'message' => 'Mensaje enviado correctamente.']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Error al guardar en la base de datos.']);
+}
+
+$stmt->close();
+$conn->close();
 ?>

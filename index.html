@@ -15,66 +15,36 @@
     <div class="container">
         <div class="form-box login">
             <form action="web/assets/db/login.php" method="POST">
-                <h1>login</h1>
+                <h1>Inicio de sesion</h1>
                 <div class="input-box">
-                    <input type="text" name="user" placeholder="username" required>
+                    <input type="text" name="user" placeholder="Usuario" required>
                     <i class='bx bxs-user'></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" name="pass" placeholder="password" required>
+                    <input type="password" name="pass" placeholder="Contraseña" required>
                     <i class='bx bxs-lock'></i>
                 </div>
-                <div class="forgot-link">
-                    <a href="#">forgot password?</a>
-                </div>
-                <button type="submit" name="login" class="btn">login</button>
-                <p>inicia don alguna de estas plataformas</p>
-                <div class="social-icons">
-                    <a href="#"><i class='bx bxl-facebook'></i></a>
-                    <a href="#"><i class='bx bxl-twitter'></i></a>
-                    <a href="#"><i class='bx bxl-google'></i></a>
-                    <a href="#"><i class='bx bxl-github'></i></a>
-                </div>
+                <button type="submit" name="login" class="btn">Iniciar sesion</button>
             </form>
         </div>
 
         <div class="form-box register">
-            <form action="db/registro_usuarios.php" method="POST">
-                <h1>Registro</h1>
-                <div class="input-box">
-                    <input type="text" name="user" placeholder="username" required>
-                    <i class='bx bxs-user'></i>
-                </div>
-                <div class="input-box">
-                    <input type="email" name="email" placeholder="email" required>
-                    <i class='bx bx-mail-send'></i>
-                </div> 
-                <div class="input-box">
-                    <input type="password" name="pass" placeholder="password" required>
-                    <i class='bx bxs-lock'></i>
-                </div>
-                <button class="btn" type="submit">Register</button>
-                <p>inicia don alguna de estas plataformas</p>
-                <div class="social-icons">
-                    <a href="#"><i class='bx bxl-facebook'></i></a>
-                    <a href="#"><i class='bx bxl-twitter'></i></a>
-                    <a href="#"><i class='bx bxl-google'></i></a>
-                    <a href="#"><i class='bx bxl-github'></i></a>
-                </div>
-            </form>
+            <p>
+                Bienvenido a nuestra plataforma,Aqui podran ver los incidentes que se han reportado en las escuelas,
+                ademas de poder ver las estadisticas de los incidentes, y si eres administrador podras administrar los
+                usuarios y los incidentes reportados.
+            </p>
         </div>
 
         <div class="toggle-box">
             <div class="toggle-panel toggle-left">
-                <h1>Hola bienvenido</h1>
-                <p>aun no tienes cuenta?</p>
-                <button class="btn register-btn"> Registrate</button>
+                <h1>Hola bienvenido</h1><br>
+                <button class="btn register-btn"> Ver mas</button>
             </div>
 
             <div class="toggle-panel toggle-right">
-                <h1>Hasta luego</h1>
-                <p>Iniciar sesion!</p>
-                <button class="btn login-btn"> login</button>
+                <h1>Vuelve pronto</h1><br>
+                <button class="btn login-btn">Iniciar sesion!</button>
             </div>
         </div>
     </div>

@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
         $_SESSION['user_name'] = $usuario_data['usuario']; // Nombre del usuario
 
         // Redirigir al menú principal
-        header("Location: ../menu.html");
+        header("Location: ../menu.php");
         exit();
     } else {
         // Credenciales inválidas: redirigir con un mensaje de error
